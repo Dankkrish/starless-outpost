@@ -37,8 +37,6 @@ function preload(){
     game.time.advancedTiming = true;
 }
 
-
-var sprites = [];
 var objects = [];
 
 
@@ -63,13 +61,7 @@ function create(){
 
     //the objects
     for(d=0;d<5;d++){
-     
-        sprites.push(game.add.sprite(d*48, d*32, 'katamori'));
-        drawable.add(sprites[d])
-
-        var temp = new KatamoriBall(d, sprites);
-        objects.push(temp);
-        delete temp;
+        objects.push(new KatamoriBall(128+(d*48), d*32, 'katamori', game))
     }
 
     //other shit
@@ -81,9 +73,9 @@ function create(){
 function update(){
 
 
-    game.physics.arcade.collide(sprites, map.layer);
+    game.physics.arcade.collide(objects.map((e)=>e.sprite), map.layer);
 
-    sortedCollide(game, sprites)
+    sortedCollide(game, objects.map((e)=>e.sprite))
 
     mouse.X = game.input.mousePointer.x;
     mouse.Y = game.input.mousePointer.y;

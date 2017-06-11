@@ -33,7 +33,7 @@ function ConfiguredMap(x, y, tilesize){
                         self.tilemap.putTile(3, i, j, self.layer) 
                     }else{ 
                         self.tilemap.putTile(1, i, j, self.layer) }
-            }
+                }
             };
         };
 
@@ -89,47 +89,46 @@ function PhysicalThing(x, y, id, arr){
 
 }
 
-
-function KatamoriBall(spriteID, spArr){
+function KatamoriBall(x, y, sh, g){
 
     var self = this;
 
-    //properties
-    this.spriteID = spriteID;
+    /*
+        PROPERTIES
+    */
 
-    this.x = spArr[spriteID].x;
-    this.y = spArr[spriteID].y;
+    this.sprite = g.add.sprite(x,y,sh)
 
+    //class-specific physical properties
     this.sizeX = 32*2;
     this.sizeY = 32*2;
-    this.motion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000]; 
+    this.initMotion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000]; 
 
-
-
-
-    //methods
-    this.setter_dummyMove = function(){ 
-        spArr[self.spriteID].body.velocity.setTo(
-            Math.cos(game.rnd.angle()) * this.motion[0], 
-            Math.sin(game.rnd.angle()) * this.motion[1])    
+    /*
+        METHODS
+    */
+    this.set_initMove = function(){ 
+        self.sprite.body.velocity.setTo(
+            Math.cos(game.rnd.angle()) * this.initMotion[0], 
+            Math.sin(game.rnd.angle()) * this.initMotion[1])    
     }
 
 
-    //the constructor
+    /*
+        THE CONSTRUCTOR
+    */
 
     /*
     player.animations.add('run right', [1,2], 3, true, true);
     player.animations.add('run left', [4, 5], 3, true, true);
     */
-    
-    spArr[self.spriteID].bindedObjType = "KatamoriBall";
 
-    //physical properties
-    game.physics.arcade.enable(spArr[self.spriteID], Phaser.Physics.ARCADE);
+    //set sprite physics
+    game.physics.arcade.enable(self.sprite, Phaser.Physics.ARCADE);
 
-    spArr[self.spriteID].body.bounce = new Phaser.Point(1,1)
-    spArr[self.spriteID].body.collideWorldBounds = true;
-    spArr[self.spriteID].body.setSize(this.sizeX, this.sizeY, this.sizeX/4, this.sizeY/4);
+    self.sprite.body.bounce = new Phaser.Point(1,1)
+    self.sprite.body.collideWorldBounds = true;
+    self.sprite.body.setSize(this.sizeX, this.sizeY, this.sizeX/4, this.sizeY/4);
 
-    self.setter_dummyMove();
+    self.set_initMove();
 }
