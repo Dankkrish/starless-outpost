@@ -1,13 +1,16 @@
 //meta-objects
 function ConfiguredMap(x, y, tilesize, utils){
 
-    var self = this;
+    const self = this;
 
     /*
         PROPERTIES
     */
     this.tilemap = game.add.tilemap();
-    this.layer = this.tilemap.create('level', x, y, tilesize, tilesize);
+    this.layer = this.tilemap.create(utils['game'], x, y, tilesize, tilesize);
+
+    const mapW = self.tilemap.width;
+    const mapH = self.tilemap.height;
 
     /*
         METHODS
@@ -21,42 +24,55 @@ function ConfiguredMap(x, y, tilesize, utils){
 
 
     //others
+    this.addTile = function(){
+        const full = mapW*mapH;
+
+        self.tilemap.putTile(0, utils['pr_x'], utils['pr_y'], self.layer)
+
+        if(utils['pr_x']<mapW){
+            if(utils['pr_y']<mapH){
+                utils['pr_y']++
+
+            }else{
+                utils['pr_x']++;
+                utils['pr_y'] = 0; 
+            }            
+        }
+
+        utils['progress'] = Math.ceil((((utils['pr_x']*mapW)+utils['pr_y'])/full)*100);
+
+        progress.setText("Map: "+utils['progress']+"% loaded.") 
+
+    }
+
+
+    //will be replaced later
     this.createBorders = function(){
 
-        const mapW = self.tilemap.width;
-        const mapH = self.tilemap.height;
+        //self.tilemap.putTile(3, 10, 10, self.layer)
 
-        for(i=0;i<mapW;i++){
-            for(j=0;j<mapH;j++){
+        self.tilemap.swap(0, 1, 10, 10, 5, 5, self.layer)
 
-                const full = mapW*mapH;
-                var percent = Math.ceil((((i*mapW)+j)/full)*100);
+        //self.tilemap.shuffle(0,0, 0, mapH-1, self.layer)
+        //self.tilemap.shuffle(1,0, mapW-1, 0, self.layer)
+        //self.tilemap.shuffle(mapW-1, 1, mapW-1, mapH-1, self.layer)
+        //self.tilemap.shuffle(1,mapH-1, mapW-1, mapH-1, self.layer)        
 
-                utils['progress'] = percent;
+    }
 
-                console.log("inside: "+utils['progress'])
-                progress.setText(utils['progress']) 
+    this.setGraphics = function(){
+        self.tilemap.addTilesetImage('tileset');
 
-                self.tilemap.putTile(0, i, j, self.layer)
+        self.layer.autoCull = true;
+        drawable.add(self.layer);
+        self.layer.resizeWorld();
 
-                if(i==0 || j==0 || i==self.tilemap.width-1 || j==self.tilemap.height-1){
-                    if(i%10 == 1){ 
-                        self.tilemap.putTile(3, i, j, self.layer) 
-                    }else{ 
-                        self.tilemap.putTile(1, i, j, self.layer) }
-                }
-            };
-        };
-
+        
     }
 
     this.initialize = function(){
 
-        this.tilemap.addTilesetImage('tileset');
         this.tilemap.setCollision([1,3]);
-
-        drawable.add(this.layer);
-        this.layer.resizeWorld();
 
         //performance improvement theoretically
         this.layer.renderSettings.enableScrollDelta = false;
@@ -66,9 +82,7 @@ function ConfiguredMap(x, y, tilesize, utils){
     /*
         THE CONSTRUCTOR
     */
-
-    //add borders
-    this.createBorders();
+    //this.initialize()
 
 
 

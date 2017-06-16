@@ -1,10 +1,22 @@
-var gameX = 1024;
-var gameY = 720;
+const gameX = 1024;
+const gameY = 720;
 
-var tilesize = 32;
+const tilesize = 32;
 
-var mapsizeX = 96;
-var mapsizeY = 96;
+const mapsizeX = 128;
+const mapsizeY = mapsizeX;
+
+/*
+    The smallest unit of "flawless loading."
+    In other words: if Phaser is forced to add
+    more tiles to a tilemap in a single frame than
+    this value, then it'll cause a visible lag.
+
+    Planned feature for later times is to adjust
+    this value to the capabilities of the device
+    running it. maybe it's possible. Maybe not :'(
+*/
+const loadingThreshold = 256;
 
 var mouse = {
     'X': -1,
@@ -17,6 +29,10 @@ var mouse = {
 
 var utilities = {
     "progress": 0,
+    "pr_x": 0,
+    "pr_y": 0,
+    "game": [],
+    "loadtime": 0
 };
 
 var folder = '../files/games/prototype-gamma/';
@@ -24,74 +40,119 @@ var GFX = folder + 'gfx/';
 
 var texts = [];
 var objects = [];
-var progress = [];
 var map =  [];
+var images = [];
+var sheets = [];
 
-var bootGame = {
- 
-    preload: () => { 
 
-        game.renderer.renderSession.roundPixels = true
+var progress = [];
+var colors = [];
 
-        game.load.image('katamori', GFX + 'katamori.png');
 
-        game.load.spritesheet('tileset', GFX + 'tileset.png', tilesize, tilesize);
 
-        game.time.advancedTiming = true;
-
-        progress = game.add.text(gameX/2, gameY/2, "Map: 0% loaded.", 
-                {font: "32px Arial", fill: "white", align: "center"})
-
-        
-    },
-
-    update: () => { game.state.start('load') }
-
-   
-}
 
 var loadMap = {
 
-    create: () => {   
-        console.log(utilities)
-        //generalizations
+    preload: () => { 
+
+        game.stage.disableVisibilityChange = true;
+
+        utilities['game'] = game;
+
+        game.load.image('katamori', GFX + 'katamori.png');
+        game.load.spritesheet('tileset', GFX + 'tileset.png', tilesize, tilesize);
+
+        game.renderer.renderSession.roundPixels = true
+
+        game.time.advancedTiming = true;
+
         var graphics = game.add.graphics(0, 0);
+
         window.graphics = graphics;
 
-        
+        drawable = game.add.group();
+                    
+        colors = Phaser.Color.HSVColorWheel();
+
+    },
+
+    create: () => {   
+
+        map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize, utilities);
+        map.setGraphics()
 
         //titlepic.inputEnabled = true;
         //titlepic.input.useHandCursor = true;
         //titlepic.events.onInputDown.add(destroySprite, this);
 
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-        drawable = game.add.group();
-
-            map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize, utilities);
-            map.initialize()            
-
+        progress = game.add.text(gameX/2, gameY/2, "Map: 0% loaded.", 
+                {font: "32px Arial", fill: "white", align: "center"})         
     },
 
     update: () => { 
 
 
 
-        progress.setText(utilities['progress'])    
-        //game.state.start('main')    
-    }
+        //graphics.beginFill(444444);
+        //graphics.drawRect(cover.x, cover.y, gameX, gameY); 
+        //graphics.endFill();    
 
+        console.log(utilities["pr_x"]+' '+utilities["pr_y"])
+
+        if(utilities["pr_x"] < mapsizeX){
+
+           for(b=0;b<loadingThreshold;b++){
+                map.addTile()
+           }
+           
+            
+
+        }else{
+            game.state.start('main', false) 
+        } 
+
+    },
+
+    render: () => {
+
+        utilities['loadtime'] = game.time.now //Math.ceil(1/(game.time.fps+1));
+
+        game.debug.text(utilities['loadtime'], 0, 64);
+    
+    }
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
 var mainGame = {
 
-    preload: () => {},
+    preload: () => {
+
+        game.stage.disableVisibilityChange = true;
+
+
+        
+    },
 
 
     create: () => {
 
+        map.setGraphics()
+        map.initialize()
+        map.createBorders()
+
         //the objects
-        for(d=0;d<5;d++){
+        for(d=0;d<10;d++){
             objects.push(new KatamoriBall(128+(d*48), d*32, 'katamori', game))
         }
 
@@ -100,6 +161,8 @@ var mainGame = {
 
         //other shit
         cursors = game.input.keyboard.createCursorKeys();
+
+        game.physics.startSystem(Phaser.Physics.ARCADE);
 
     },
 
@@ -122,13 +185,21 @@ var mainGame = {
         if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ game.camera.x+=tilesize/4 }; 
 
 
+        objects.forEach(s=>{
+           // s.sprite.renderable = s.sprite.inCamera
+        });
 
+    
 
 
 
     },
 
     render: () => {
+
+        game.debug.text(utilities['loadtime'], 0, 64);
+        
+        game.debug.text(objects.map(s=>s.sprite.preUpdate()), 0, 128); 
 
         game.debug.text("FPS: "+game.time.fps, gameX - 80, 64);
 
@@ -147,8 +218,7 @@ var mainGame = {
 //the matter itself
 var game = new Phaser.Game(gameX, gameY, Phaser.CANVAS, '');
 
-game.state.add('boot', bootGame);
 game.state.add('load', loadMap);
 game.state.add('main', mainGame);
 
-game.state.start('boot');
+game.state.start('load');
