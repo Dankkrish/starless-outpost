@@ -82,7 +82,9 @@ function ConfiguredMap(x, y, tilesize, utils){
     /*
         THE CONSTRUCTOR
     */
-    //this.initialize()
+    
+    //important performance update
+    this.tilemap.setPreventRecalculate(true);
 
 
 

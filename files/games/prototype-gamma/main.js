@@ -1,9 +1,9 @@
-const gameX = 1024;
-const gameY = 720;
+const gameX = 800;
+const gameY = 600;
 
 const tilesize = 32;
 
-const mapsizeX = 128;
+const mapsizeX = 1024;
 const mapsizeY = mapsizeX;
 
 /*
@@ -16,7 +16,7 @@ const mapsizeY = mapsizeX;
     this value to the capabilities of the device
     running it. maybe it's possible. Maybe not :'(
 */
-const loadingThreshold = 256;
+const loadingThreshold = 256*256*2;
 
 var mouse = {
     'X': -1,
@@ -102,7 +102,7 @@ var loadMap = {
         if(utilities["pr_x"] < mapsizeX){
 
            for(b=0;b<loadingThreshold;b++){
-                map.addTile()
+                map.addTile();
            }
            
             
@@ -146,6 +146,8 @@ var mainGame = {
 
 
     create: () => {
+
+        progress.destroy();
 
         map.setGraphics()
         map.initialize()
