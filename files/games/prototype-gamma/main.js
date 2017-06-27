@@ -3,7 +3,7 @@ const gameY = 600;
 
 const tilesize = 32;
 
-const mapsizeX = 1024;
+const mapsizeX = 512;
 const mapsizeY = mapsizeX;
 
 /*
@@ -16,7 +16,10 @@ const mapsizeY = mapsizeX;
     this value to the capabilities of the device
     running it. maybe it's possible. Maybe not :'(
 */
-const loadingThreshold = 256*256*2;
+const loadingThreshold = mapsizeX*128;
+
+const folder = '../files/games/prototype-gamma/';
+const GFX = folder + 'gfx/';
 
 var mouse = {
     'X': -1,
@@ -35,9 +38,6 @@ var utilities = {
     "loadtime": 0
 };
 
-var folder = '../files/games/prototype-gamma/';
-var GFX = folder + 'gfx/';
-
 var texts = [];
 var objects = [];
 var map =  [];
@@ -46,9 +46,6 @@ var sheets = [];
 
 
 var progress = [];
-var colors = [];
-
-
 
 
 var loadMap = {
@@ -71,8 +68,6 @@ var loadMap = {
         window.graphics = graphics;
 
         drawable = game.add.group();
-                    
-        colors = Phaser.Color.HSVColorWheel();
 
     },
 
@@ -102,7 +97,7 @@ var loadMap = {
         if(utilities["pr_x"] < mapsizeX){
 
            for(b=0;b<loadingThreshold;b++){
-                map.addTile();
+                map.addTile(utilities);
            }
            
             
@@ -185,11 +180,11 @@ var mainGame = {
 
         if(game.input.keyboard.isDown(Phaser.Keyboard["A"])){ game.camera.x-=tilesize/4 };
         if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ game.camera.x+=tilesize/4 }; 
-
+/*
 
         objects.forEach(s=>{
-           // s.sprite.renderable = s.sprite.inCamera
-        });
+           s.sprite.renderable = s.sprite.inCamera
+        });*/
 
     
 
@@ -198,7 +193,7 @@ var mainGame = {
     },
 
     render: () => {
-
+/*
         game.debug.text(utilities['loadtime'], 0, 64);
         
         game.debug.text(objects.map(s=>s.sprite.preUpdate()), 0, 128); 
@@ -211,7 +206,7 @@ var mainGame = {
 
 
         game.debug.text("camera: "+game.camera.x+","+game.camera.y, gameX - 160, 128);
-
+*/
         //for(d=0;d<20;d++){ game.debug.body(sprites.colonists[d]) };
 
     }

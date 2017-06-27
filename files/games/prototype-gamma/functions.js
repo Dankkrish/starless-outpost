@@ -1,6 +1,6 @@
 function print(name, string, x, y) {
 
-    var style = {font: "16px Arial", fill: "white", align: "left"};
+    const style = {font: "16px Arial", fill: "white", align: "left"};
 
     //texts[] should exist when and/or where it's called
     if (typeof texts[name] != 'object'){

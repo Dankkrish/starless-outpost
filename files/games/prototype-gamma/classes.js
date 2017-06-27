@@ -1,83 +1,11 @@
 //meta-objects
 function ConfiguredMap(x, y, tilesize, utils){
 
-    const self = this;
-
     /*
         PROPERTIES
     */
     this.tilemap = game.add.tilemap();
     this.layer = this.tilemap.create(utils['game'], x, y, tilesize, tilesize);
-
-    const mapW = self.tilemap.width;
-    const mapH = self.tilemap.height;
-
-    /*
-        METHODS
-    */
-
-    //getters
-    this.getSize = function(){ return [self.tilemap.width, self.tilemap.height] }
-
-
-    //setters
-
-
-    //others
-    this.addTile = function(){
-        const full = mapW*mapH;
-
-        self.tilemap.putTile(0, utils['pr_x'], utils['pr_y'], self.layer)
-
-        if(utils['pr_x']<mapW){
-            if(utils['pr_y']<mapH){
-                utils['pr_y']++
-
-            }else{
-                utils['pr_x']++;
-                utils['pr_y'] = 0; 
-            }            
-        }
-
-        utils['progress'] = Math.ceil((((utils['pr_x']*mapW)+utils['pr_y'])/full)*100);
-
-        progress.setText("Map: "+utils['progress']+"% loaded.") 
-
-    }
-
-
-    //will be replaced later
-    this.createBorders = function(){
-
-        //self.tilemap.putTile(3, 10, 10, self.layer)
-
-        self.tilemap.swap(0, 1, 10, 10, 5, 5, self.layer)
-
-        //self.tilemap.shuffle(0,0, 0, mapH-1, self.layer)
-        //self.tilemap.shuffle(1,0, mapW-1, 0, self.layer)
-        //self.tilemap.shuffle(mapW-1, 1, mapW-1, mapH-1, self.layer)
-        //self.tilemap.shuffle(1,mapH-1, mapW-1, mapH-1, self.layer)        
-
-    }
-
-    this.setGraphics = function(){
-        self.tilemap.addTilesetImage('tileset');
-
-        self.layer.autoCull = true;
-        drawable.add(self.layer);
-        self.layer.resizeWorld();
-
-        
-    }
-
-    this.initialize = function(){
-
-        this.tilemap.setCollision([1,3]);
-
-        //performance improvement theoretically
-        this.layer.renderSettings.enableScrollDelta = false;
-
-    }
 
     /*
         THE CONSTRUCTOR
@@ -86,10 +14,103 @@ function ConfiguredMap(x, y, tilesize, utils){
     //important performance update
     this.tilemap.setPreventRecalculate(true);
 
+}
+
+/*
+    METHODS
+*/
+
+//getters
+ConfiguredMap.prototype.getSize = function(){ return [self.tilemap.width, self.tilemap.height] }
 
 
+//setters
+
+
+//others
+ConfiguredMap.prototype.addTile = function(utils){
+    const mapW = this.tilemap.width;
+    const mapH = this.tilemap.height;
+    const full = mapW*mapH;
+
+    this.tilemap.putTile(0, utils['pr_x'], utils['pr_y'], this.layer)
+
+    if(utils['pr_x']<mapW){
+        if(utils['pr_y']<mapH){
+            utils['pr_y']++
+
+        }else{
+            utils['pr_x']++;
+            utils['pr_y'] = 0; 
+        }            
+    }
+
+    utils['progress'] = Math.ceil((((utils['pr_x']*mapW)+utils['pr_y'])/full)*100);
+
+    progress.setText("Map: "+utils['progress']+"% loaded.") 
 
 }
+
+
+//will be replaced later
+ConfiguredMap.prototype.createBorders = function(){
+    const mapW = this.tilemap.width;
+    //self.tilemap.putTile(3, 10, 10, self.layer)
+
+    this.tilemap.swap(0, 1, 0, 0, mapW-1, 8, this.layer)
+
+    for(i=0; i<mapW-1; i++){     
+        for(j=10; j<18; j++){ this.tilemap.putTile(1, i, j) 
+    }}
+
+    //self.tilemap.shuffle(0,0, 0, mapH-1, self.layer)
+    //self.tilemap.shuffle(1,0, mapW-1, 0, self.layer)
+    //self.tilemap.shuffle(mapW-1, 1, mapW-1, mapH-1, self.layer)
+    //self.tilemap.shuffle(1,mapH-1, mapW-1, mapH-1, self.layer)        
+
+}
+
+ConfiguredMap.prototype.setGraphics = function(){
+    this.tilemap.addTilesetImage('tileset');
+
+    this.layer.autoCull = true;
+    drawable.add(this.layer);
+    this.layer.resizeWorld();
+
+    
+}
+
+ConfiguredMap.prototype.initialize = function(){
+
+    this.tilemap.setCollision([1,3]);
+
+    //performance improvement theoretically
+    this.layer.renderSettings.enableScrollDelta = false;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -100,28 +121,68 @@ function ConfiguredMap(x, y, tilesize, utils){
 */
 function PhysicalThing(x, y, id, arr){
 
-    var self = this;
-
-    //properties
+    //dependent properties
     this.spriteID = id;
 
     this.x = x;
     this.y = y;
 
-    this.sizeX = 32*2;
-    this.sizeY = 32*2;
-    this.motion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000];
-
-    /*
-    coming soon: object defines a sprite with methods
-    */ 
-
-    this.setInitPost = function(){
-        arr[id].x = self.x;
-        arr[id].y = self.y;        
-    }
-
 }
+
+//independent properties
+    PhysicalThing.prototype.sizeX = 32*2;
+    PhysicalThing.prototype.sizeY = 32*2;
+    PhysicalThing.prototype.motion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000];
+
+/*
+
+    METHODS
+
+    coming soon: object defines a sprite with methods
+
+*/ 
+
+PhysicalThing.prototype.setInitPost = function(){
+    arr[id].x = this.x;
+    arr[id].y = this.y;        
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function KatamoriBall(x, y, sh, g){
 
@@ -131,22 +192,8 @@ function KatamoriBall(x, y, sh, g){
         PROPERTIES
     */
 
+    //dependent properties
     this.sprite = g.add.sprite(x,y,sh)
-
-    //class-specific physical properties
-    this.sizeX = 32*2;
-    this.sizeY = 32*2;
-    this.initMotion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000]; 
-
-    /*
-        METHODS
-    */
-    this.set_initMove = function(){ 
-        self.sprite.body.velocity.setTo(
-            Math.cos(game.rnd.angle()) * this.initMotion[0], 
-            Math.sin(game.rnd.angle()) * this.initMotion[1])    
-    }
-
 
     /*
         THE CONSTRUCTOR
@@ -166,3 +213,36 @@ function KatamoriBall(x, y, sh, g){
 
     self.set_initMove();
 }
+
+/*
+    independent variables
+*/
+
+//class-specificphysical properties
+KatamoriBall.prototype.sizeX = 32*2;
+KatamoriBall.prototype.sizeY = 32*2;
+KatamoriBall.prototype.initMotion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000]; 
+
+/*
+    METHODS
+*/
+KatamoriBall.prototype.set_initMove = function(){ 
+    this.sprite.body.velocity.setTo(
+        Math.cos(game.rnd.angle()) * this.initMotion[0], 
+        Math.sin(game.rnd.angle()) * this.initMotion[1])    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
