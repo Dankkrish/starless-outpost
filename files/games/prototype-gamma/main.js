@@ -3,8 +3,8 @@ const gameY = 600;
 
 const tilesize = 32;
 
-const mapsizeX = 512;
-const mapsizeY = mapsizeX;
+const mapsizeX = 32;
+const mapsizeY = 16;
 
 /*
     The smallest unit of "flawless loading."
@@ -16,7 +16,7 @@ const mapsizeY = mapsizeX;
     this value to the capabilities of the device
     running it. maybe it's possible. Maybe not :'(
 */
-const loadingThreshold = mapsizeX*128;
+const loadingThreshold = mapsizeX*mapsizeY;
 
 const folder = '../files/games/prototype-gamma/';
 const GFX = folder + 'gfx/';
@@ -149,8 +149,8 @@ var mainGame = {
         map.createBorders()
 
         //the objects
-        for(d=0;d<10;d++){
-            objects.push(new KatamoriBall(128+(d*48), d*32, 'katamori', game))
+        for(d=0;d<2;d++){
+            objects.push(new KatamoriBall({'x': 300+(d*96), 'y': 300+(d*16), 'spritesheet': 'katamori', 'game': game}))
         }
 
         //keyboard control
@@ -180,6 +180,18 @@ var mainGame = {
 
         if(game.input.keyboard.isDown(Phaser.Keyboard["A"])){ game.camera.x-=tilesize/4 };
         if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ game.camera.x+=tilesize/4 }; 
+
+
+        //a little game: shoot item towards cursor on click
+        if( game.input.activePointer.leftButton.isDown && 
+            objects[0].sprite.body.velocity.y <50 &&
+            objects[0].sprite.body.velocity.x <50    
+        ){ 
+                
+            objects[0].thrust([mouse.X - objects[0].sprite.body.x, mouse.Y - objects[0].sprite.body.y]); 
+        }
+
+
 /*
 
         objects.forEach(s=>{

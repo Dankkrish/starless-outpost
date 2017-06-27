@@ -2,15 +2,16 @@
 function ConfiguredMap(x, y, tilesize, utils){
 
     /*
-        PROPERTIES
+        CONSTRUCTOR
+
+        ...meaning input-dependent properties 
+        and other actions if necessary
     */
+    
+    //dependent properties
     this.tilemap = game.add.tilemap();
     this.layer = this.tilemap.create(utils['game'], x, y, tilesize, tilesize);
 
-    /*
-        THE CONSTRUCTOR
-    */
-    
     //important performance update
     this.tilemap.setPreventRecalculate(true);
 
@@ -25,13 +26,15 @@ ConfiguredMap.prototype.getSize = function(){ return [self.tilemap.width, self.t
 
 
 //setters
+//none yet
+
+//others
 ConfiguredMap.prototype.swapArea = function(from, to, startx, starty, width, height){
 
     this.tilemap.swap(from, to, startx, starty, width, height, this.layer)
 
 }
 
-//others
 ConfiguredMap.prototype.addTile = function(utils){
     const mapW = this.tilemap.width;
     const mapH = this.tilemap.height;
@@ -49,7 +52,7 @@ ConfiguredMap.prototype.addTile = function(utils){
         }            
     }
 
-    utils['progress'] = Math.ceil((((utils['pr_x']*mapW)+utils['pr_y'])/full)*100);
+    utils['progress'] = Math.ceil((((utils['pr_x']*mapW)+utils['pr_y'])/full)*100)/2;
 
     progress.setText("Map: "+utils['progress']+"% loaded.") 
 
@@ -129,32 +132,40 @@ ConfiguredMap.prototype.initialize = function(){
     GAME OBJECTS
 
 */
-function PhysicalThing(x, y, id, arr){
+function PhysicalThing(){
 
-    //dependent properties
-    this.spriteID = id;
+    /*
+        CONSTRUCTOR
 
-    this.x = x;
-    this.y = y;
+        ...meaning input-dependent properties 
+        and other actions if necessary
+    */
+
 
 }
 
 //independent properties
-    PhysicalThing.prototype.sizeX = 32*2;
-    PhysicalThing.prototype.sizeY = 32*2;
-    PhysicalThing.prototype.motion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000];
+PhysicalThing.prototype.sprite = null;
+
+PhysicalThing.prototype.sizeX = 32*2;
+PhysicalThing.prototype.sizeY = 32*2;
 
 /*
 
     METHODS
 
-    coming soon: object defines a sprite with methods
-
 */ 
 
-PhysicalThing.prototype.setInitPost = function(){
-    arr[id].x = this.x;
-    arr[id].y = this.y;        
+//setters
+PhysicalThing.prototype.setSprite = function(pack){
+    return pack.game.add.sprite(pack.x,pack.y,pack.spritesheet);
+}
+
+//others
+PhysicalThing.prototype.thrust = function(vector){ 
+    this.sprite.body.velocity.setTo(
+        Math.cos(game.rnd.angle()) * vector[0], 
+        Math.sin(game.rnd.angle()) * vector[1])    
 }
 
 
@@ -189,58 +200,50 @@ PhysicalThing.prototype.setInitPost = function(){
 
 
 
+KatamoriBall.prototype = new PhysicalThing();
+KatamoriBall.prototype.constructor = KatamoriBall;
+KatamoriBall.prototype.parent = PhysicalThing.prototype;
 
-
-
-
-
-function KatamoriBall(x, y, sh, g){
-
-    var self = this;
+function KatamoriBall(spriteDefPack){
 
     /*
-        PROPERTIES
+        CONSTRUCTOR
+
+        ...meaning input-dependent properties 
+        and other actions if necessary
     */
 
-    //dependent properties
-    this.sprite = g.add.sprite(x,y,sh)
+    this.sprite = this.setSprite(spriteDefPack);
 
-    /*
-        THE CONSTRUCTOR
-    */
+
+
+
+    //set sprite physics
+    game.physics.arcade.enable(this.sprite, Phaser.Physics.ARCADE);
+
+    this.sprite.body.bounce = new Phaser.Point(1,1)
+    this.sprite.body.collideWorldBounds = true;
+    this.sprite.body.setSize(this.sizeX, this.sizeY, this.sizeX/4, this.sizeY/4);
 
     /*
     player.animations.add('run right', [1,2], 3, true, true);
     player.animations.add('run left', [4, 5], 3, true, true);
     */
 
-    //set sprite physics
-    game.physics.arcade.enable(self.sprite, Phaser.Physics.ARCADE);
-
-    self.sprite.body.bounce = new Phaser.Point(1,1)
-    self.sprite.body.collideWorldBounds = true;
-    self.sprite.body.setSize(this.sizeX, this.sizeY, this.sizeX/4, this.sizeY/4);
-
-    self.set_initMove();
+    //this.thrust();
 }
 
 /*
     independent variables
 */
 
-//class-specificphysical properties
-KatamoriBall.prototype.sizeX = 32*2;
-KatamoriBall.prototype.sizeY = 32*2;
-KatamoriBall.prototype.initMotion = [(Math.random()-0.5)*1000, (Math.random()-0.5)*1000]; 
+//class-specific physical properties
+//none
 
 /*
     METHODS
 */
-KatamoriBall.prototype.set_initMove = function(){ 
-    this.sprite.body.velocity.setTo(
-        Math.cos(game.rnd.angle()) * this.initMotion[0], 
-        Math.sin(game.rnd.angle()) * this.initMotion[1])    
-}
+//none 
 
 
 
