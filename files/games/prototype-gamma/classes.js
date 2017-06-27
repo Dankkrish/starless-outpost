@@ -25,7 +25,11 @@ ConfiguredMap.prototype.getSize = function(){ return [self.tilemap.width, self.t
 
 
 //setters
+ConfiguredMap.prototype.swapArea = function(from, to, startx, starty, width, height){
 
+    this.tilemap.swap(from, to, startx, starty, width, height, this.layer)
+
+}
 
 //others
 ConfiguredMap.prototype.addTile = function(utils){
@@ -52,21 +56,27 @@ ConfiguredMap.prototype.addTile = function(utils){
 }
 
 
-//will be replaced later
 ConfiguredMap.prototype.createBorders = function(){
-    const mapW = this.tilemap.width;
-    //self.tilemap.putTile(3, 10, 10, self.layer)
 
-    this.tilemap.swap(0, 1, 0, 0, mapW-1, 8, this.layer)
+    const mapW = this.tilemap.width;
+    const mapH = this.tilemap.height;
+
 
     for(i=0; i<mapW-1; i++){     
-        for(j=10; j<18; j++){ this.tilemap.putTile(1, i, j) 
-    }}
+        this.tilemap.putTile(1, i, 0) 
+    }
 
-    //self.tilemap.shuffle(0,0, 0, mapH-1, self.layer)
-    //self.tilemap.shuffle(1,0, mapW-1, 0, self.layer)
-    //self.tilemap.shuffle(mapW-1, 1, mapW-1, mapH-1, self.layer)
-    //self.tilemap.shuffle(1,mapH-1, mapW-1, mapH-1, self.layer)        
+    for(i=0; i<mapH-1; i++){     
+        this.tilemap.putTile(1, mapW-1, i) 
+    } 
+
+    for(i=mapW-1; i>0; i--){     
+        this.tilemap.putTile(1, i, mapH-1) 
+    }
+
+    for(i=mapH-1; i>0; i--){     
+        this.tilemap.putTile(1, 0, i) 
+    }         
 
 }
 
