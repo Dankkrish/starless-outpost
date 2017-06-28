@@ -3,8 +3,8 @@ const gameY = 600;
 
 const tilesize = 32;
 
-const mapsizeX = 32;
-const mapsizeY = 16;
+const mapsizeX = 256;
+const mapsizeY = 256;
 
 /*
     The smallest unit of "flawless loading."
@@ -15,8 +15,10 @@ const mapsizeY = 16;
     Planned feature for later times is to adjust
     this value to the capabilities of the device
     running it. maybe it's possible. Maybe not :'(
+
+    2^15 is the best I could achieve for seamlessness
 */
-const loadingThreshold = mapsizeX*mapsizeY;
+const loadingThreshold = Math.pow(2, 15);
 
 const folder = '../files/games/prototype-gamma/';
 const GFX = folder + 'gfx/';
@@ -150,7 +152,7 @@ var mainGame = {
 
         //the objects
         for(d=0;d<2;d++){
-            objects.push(new KatamoriBall({'x': 300+(d*96), 'y': 300+(d*16), 'spritesheet': 'katamori', 'game': game}))
+            objects.push(new KatamoriBall({'x': 300+(d*96), 'y': 300+(d*16), 'spritesheet': 'katamori'}, utilities))
         }
 
         //keyboard control
@@ -205,7 +207,12 @@ var mainGame = {
     },
 
     render: () => {
+
+
+
 /*
+        game.debug.cameraInfo(game.camera, 0, 32)
+
         game.debug.text(utilities['loadtime'], 0, 64);
         
         game.debug.text(objects.map(s=>s.sprite.preUpdate()), 0, 128); 
