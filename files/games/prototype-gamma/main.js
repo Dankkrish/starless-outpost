@@ -59,6 +59,8 @@ var loadMap = {
         utilities['game'] = game;
 
         game.load.image('katamori', GFX + 'katamori.png');
+        game.load.image('resident', GFX + 'resident.png');
+
         game.load.spritesheet('tileset', GFX + 'tileset.png', tilesize, tilesize);
 
         game.renderer.renderSession.roundPixels = true
@@ -152,8 +154,10 @@ var mainGame = {
 
         //the objects
         for(d=0;d<2;d++){
-            objects.push(new KatamoriBall({'x': 300+(d*96), 'y': 300+(d*16), 'spritesheet': 'katamori'}, utilities))
+            objects.push(new Resident({'x': 96+(d*96), 'y': 96+(d*96), 'spritesheet': 'resident'}, utilities))
         }
+
+        objects[0].setOrder("simple_move", {destX: 256, destY: 256})
 
         //keyboard control
         addKeys();
@@ -184,14 +188,7 @@ var mainGame = {
         if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ game.camera.x+=tilesize/4 }; 
 
 
-        //a little game: shoot item towards cursor on click
-        if( game.input.activePointer.leftButton.isDown && 
-            objects[0].sprite.body.velocity.y <50 &&
-            objects[0].sprite.body.velocity.x <50    
-        ){ 
-                
-            objects[0].thrust([mouse.X - objects[0].sprite.body.x, mouse.Y - objects[0].sprite.body.y]); 
-        }
+        objects[0].implementOrder()
 
 
 /*
