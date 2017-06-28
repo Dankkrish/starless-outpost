@@ -154,10 +154,11 @@ var mainGame = {
 
         //the objects
         for(d=0;d<2;d++){
-            objects.push(new Resident({'x': 96+(d*96), 'y': 96+(d*96), 'spritesheet': 'resident'}, utilities))
-        }
+            objects.push(new Resident({'x': 96+(d*96), 'y': 96+(d*tilesize*5), 'spritesheet': 'resident'}, utilities))
 
-        objects[0].setOrder("simple_move", {destX: 256, destY: 256})
+            objects[d].setOrder("simple_move", {destination: [512, 256], speed: 100})  
+
+        }          
 
         //keyboard control
         addKeys();
@@ -188,14 +189,12 @@ var mainGame = {
         if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ game.camera.x+=tilesize/4 }; 
 
 
-        objects[0].implementOrder()
-
-
-/*
-
+        
+        var di = 0;
         objects.forEach(s=>{
-           s.sprite.renderable = s.sprite.inCamera
-        });*/
+           //s.sprite.renderable = s.sprite.inCamera
+            s.onUpdate();
+        });
 
     
 
@@ -205,7 +204,7 @@ var mainGame = {
 
     render: () => {
 
-
+            game.debug.bodyInfo(objects[0].sprite, 32, 32)
 
 /*
         game.debug.cameraInfo(game.camera, 0, 32)

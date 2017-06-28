@@ -3,11 +3,11 @@ function ConfiguredMap(x, y, tilesize, utils){
     /*
         CONSTRUCTOR
 
-        ...meaning input-dependent properties 
-        and other actions if necessary
+        ...meaning input-dependent and/or 
+        object-unique properties and 
+        other actions if necessary
     */
-    
-    //dependent properties
+
     this.tilemap = game.add.tilemap();
     this.layer = this.tilemap.create(utils['game'], x, y, tilesize, tilesize);
 

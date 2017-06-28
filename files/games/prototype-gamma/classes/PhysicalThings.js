@@ -3,12 +3,12 @@ function PhysicalThing(){
     /*
         CONSTRUCTOR
 
-        ...meaning input-dependent properties 
+        ...meaning input-dependent and/or object-unique properties 
         and other actions if necessary
     */
 }
 
-//independent properties
+//common properties
 PhysicalThing.prototype.sprite = null;
 
 PhysicalThing.prototype.size = [ 32*2, 32*2 ];
@@ -36,9 +36,9 @@ PhysicalThing.prototype.setSprite = function(gameObj, pack){
     
     gameObj.physics.arcade.enable(s, Phaser.Physics.ARCADE);
 
-    s.body.bounce = new Phaser.Point(1,1)
+     //s.body.bounce = new Phaser.Point(0,0)
     s.body.collideWorldBounds = true;
-    s.body.setSize(this.size, this.size[0]/4, this.size[0]/4); 
+    s.body.setSize(this.size[0], this.size[1], this.size[0]/4, this.size[1]/4); 
 
     s.body.maxVelocity = this.stats.maxSpeed;   
 
@@ -95,8 +95,9 @@ function KatamoriBall(spriteDefPack, utils){
     /*
         CONSTRUCTOR
 
-        ...meaning input-dependent properties 
-        and other actions if necessary
+        ...meaning input-dependent and/or 
+        object-unique properties and 
+        other actions if necessary
     */
 
     this.sprite = this.setSprite(utils["game"], spriteDefPack);
@@ -108,7 +109,7 @@ function KatamoriBall(spriteDefPack, utils){
 }
 
 /*
-    independent variables
+    common variables
 */
 
 //class-specific physical properties
@@ -118,6 +119,22 @@ function KatamoriBall(spriteDefPack, utils){
     METHODS
 */
 //none 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -138,11 +155,27 @@ function Resident(spriteDefPack, utils){
     /*
         CONSTRUCTOR
 
-        ...meaning input-dependent properties 
+        ...meaning input-dependent and/or object-unique properties 
         and other actions if necessary
     */
 
     this.sprite = this.setSprite(utils["game"], spriteDefPack);
+
+    this.seed = Math.random()
+
+    this.order = { 
+        task: "idle", 
+        params: null, 
+        inProgress: true 
+    };
+
+    this.humanStats = { 
+        name: "new", 
+        gender: "male", 
+        age: "0" 
+    }; 
+
+    //setting values
 
     /*
     player.animations.add('run right', [1,2], 3, true, true);
@@ -151,17 +184,9 @@ function Resident(spriteDefPack, utils){
 }
 
 /*
-    independent variables
+    common variables
 */
 Resident.prototype.stats.maxSpeed = 128;
-
-//class-specific physical properties
-Resident.prototype.order = { task: "idle", params: null, inProgress: true };
-Resident.prototype.demography = { 
-    name: "new", 
-    gender: "male", 
-    age: "0" };    
-
 
 /*
     METHODS
@@ -177,8 +202,9 @@ Resident.prototype.onUpdate = function(){
 //none
 
 //setters
-Resident.prototype.setName = function(){
+Resident.prototype.setName = function(str){
 
+    this.humanStats.name = str;
 }
 
 Resident.prototype.setOrder = function(task, params){
@@ -190,30 +216,57 @@ Resident.prototype.setOrder = function(task, params){
 //others
 Resident.prototype.implementOrder = function(){
 
+    console.log(this.order.inProgress)
+
+    //if an order is in progress, but not done
     if(this.order.inProgress){
 
         switch(this.order.task){
             case "idle":
-
+                this.sprite.body.velocity.setTo(0,0)
                 break;
 
             case "simple_move":
 
+                
+
+                if(                
+                    Math.abs(this.order.params.destination[0] - this.sprite.body.x) < 3*tilesize &&
+                    Math.abs(this.order.params.destination[1] - this.sprite.body.y) < 3*tilesize)
+                {
+                    //this.sprite.body.velocity.setTo(0, 0);
+                    this.order.inProgress = false;   
+                    this.setOrder("idle");               
+                }else{
+                }
 
 
                 break;
         }
-
+    
+    //if every other order is finished
     }else{
 
         switch(this.order.task){
             case "idle":
-
+                this.sprite.body.velocity.setTo(0,0)
                 break;
 
             case "simple_move":
-                this.sprite.body.velocity.x = this.order.params.destX - this.sprite.body.x;
-                this.sprite.body.velocity.x = this.order.params.destY - this.sprite.body.y;
+
+                var angle = Math.atan(
+                        (this.order.params.destination[1] - this.sprite.body.y)
+                        /
+                        (this.order.params.destination[0] - this.sprite.body.x)
+                    )
+
+                //console.log(Math.cos(angle) * this.order.params.speed+", "+Math.sin(angle) * this.order.params.speed)
+
+                //set motion
+                this.sprite.body.velocity.setTo(
+                    Math.cos(angle) * this.order.params.speed, 
+                    Math.sin(angle) * this.order.params.speed
+                );
 
                 break;
         }
