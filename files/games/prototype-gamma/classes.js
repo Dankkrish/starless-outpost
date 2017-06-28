@@ -43,18 +43,17 @@ ConfiguredMap.prototype.addTile = function(utils){
     this.tilemap.putTile(0, utils['pr_x'], utils['pr_y'], this.layer)
 
     if(utils['pr_x']<mapW){
-        if(utils['pr_y']<mapH){
-            utils['pr_y']++
-
-        }else{
+        if(utils['pr_y'] == mapH){
             utils['pr_x']++;
-            utils['pr_y'] = 0; 
+            utils['pr_y'] = 0;
+        }else{
+            utils['pr_y']++ 
         }            
     }
 
-    utils['progress'] = Math.ceil((((utils['pr_x']*mapW)+utils['pr_y'])/full)*100)/2;
+    utils['progress'] = Math.ceil((((utils['pr_x']*mapH)+utils['pr_y'])/full)*100);
 
-    progress.setText("Map: "+utils['progress']+"% loaded.") 
+    progress.setText("Map: "+utils['progress']+"% loaded. \n ("+((utils['pr_x']*mapH)+utils['pr_y'])+"/"+full+")") 
 
 }
 
@@ -157,8 +156,8 @@ PhysicalThing.prototype.sizeY = 32*2;
 */ 
 
 //setters
-PhysicalThing.prototype.setSprite = function(pack){
-    return pack.game.add.sprite(pack.x,pack.y,pack.spritesheet);
+PhysicalThing.prototype.setSprite = function(gameObj, pack){
+    return gameObj.add.sprite(pack.x,pack.y,pack.spritesheet);
 }
 
 //others
@@ -204,7 +203,7 @@ KatamoriBall.prototype = new PhysicalThing();
 KatamoriBall.prototype.constructor = KatamoriBall;
 KatamoriBall.prototype.parent = PhysicalThing.prototype;
 
-function KatamoriBall(spriteDefPack){
+function KatamoriBall(spriteDefPack, utils){
 
     /*
         CONSTRUCTOR
@@ -213,7 +212,7 @@ function KatamoriBall(spriteDefPack){
         and other actions if necessary
     */
 
-    this.sprite = this.setSprite(spriteDefPack);
+    this.sprite = this.setSprite(utils["game"], spriteDefPack);
 
 
 
