@@ -3,8 +3,8 @@ const gameY = 600;
 
 const tilesize = 32;
 
-const mapsizeX = 256;
-const mapsizeY = 256;
+const mapsizeX = 128;
+const mapsizeY = 128;
 
 /*
     The smallest unit of "flawless loading."
@@ -149,7 +149,7 @@ var mainGame = {
         map.createBorders()
 
         //the objects
-        for(d=0;d<1000;d++){
+        for(d=0;d<100;d++){
 
             objects.push(
                 new Resident({
@@ -158,7 +158,10 @@ var mainGame = {
                     'spritesheet': 'resident'
                 }, utilities))
 
-            objects[d].setOrder("simple_move", {destination: [tilesize*18, tilesize*12], speed: objects[d].stats.maxSpeed})  
+            objects[d].setOrder("simple_move", { destination: [
+                Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4, 
+                Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4
+            ], speed: objects[d].stats.maxSpeed})  
 
         }          
 
@@ -202,7 +205,7 @@ var mainGame = {
 
     render: () => {
 
-            
+           game.debug.text("FPS: "+game.time.fps, gameX - 80, 64);         
 
 /*
 
@@ -213,8 +216,6 @@ var mainGame = {
         game.debug.text(utilities['loadtime'], 0, 64);
         
         game.debug.text(objects.map(s=>s.sprite.preUpdate()), 0, 128); 
-
-        game.debug.text("FPS: "+game.time.fps, gameX - 80, 64);
 
         game.debug.text("mouse: "+mouse.X+","+mouse.Y+"|"+
                                 Math.floor(+mouse.tileX)+","+
