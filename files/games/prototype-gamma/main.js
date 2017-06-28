@@ -36,17 +36,17 @@ var utilities = {
     "progress": 0,
     "pr_x": 0,
     "pr_y": 0,
-    "game": [],
-    "loadtime": 0
+    "game": "",
 };
 
-var texts = [];
-var objects = [];
+var sets = {
+    "texts": [],
+    "objects": [],
+    "images": [],
+    "sheets": [],
+}
+
 var map =  [];
-var images = [];
-var sheets = [];
-
-
 var progress = [];
 
 
@@ -103,8 +103,6 @@ var loadMap = {
            for(b=0;b<loadingThreshold;b++){
                 map.addTile(utilities);
            }
-           
-            
 
         }else{
             game.state.start('main', false) 
@@ -114,10 +112,6 @@ var loadMap = {
 
     render: () => {
 
-        utilities['loadtime'] = game.time.now //Math.ceil(1/(game.time.fps+1));
-
-        game.debug.text(utilities['loadtime'], 0, 64);
-    
     }
 
 }
@@ -153,10 +147,10 @@ var mainGame = {
         map.createBorders()
 
         //the objects
-        for(d=0;d<2;d++){
-            objects.push(new Resident({'x': 96+(d*96), 'y': 96+(d*tilesize*5), 'spritesheet': 'resident'}, utilities))
+        for(d=0;d<20;d++){
+            sets.objects.push(new Resident({'x': 96+(d*tilesize*2), 'y': 96+(d*tilesize*5), 'spritesheet': 'resident'}, utilities))
 
-            objects[d].setOrder("simple_move", {destination: [512, 256], speed: 100})  
+            sets.objects[d].setOrder("simple_move", {destination: [512, 256], speed: 100})  
 
         }          
 
@@ -172,9 +166,16 @@ var mainGame = {
 
     update: () => {
 
-        game.physics.arcade.collide(objects.map((e)=>e.sprite), map.layer);
+        game.physics.arcade.collide(sets.objects.map((e)=>e.sprite), map.layer);
 
-        sortedCollide(game, objects.map((e)=>e.sprite))
+        sortedCollide(game, sets.objects.map((e)=>e.sprite))
+
+        sets.objects.forEach(s=>{
+           //s.sprite.renderable = s.sprite.inCamera
+            s.onUpdate();
+        });
+
+
 
         mouse.X = game.input.mousePointer.x;
         mouse.Y = game.input.mousePointer.y;
@@ -189,29 +190,21 @@ var mainGame = {
         if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ game.camera.x+=tilesize/4 }; 
 
 
-        
-        var di = 0;
-        objects.forEach(s=>{
-           //s.sprite.renderable = s.sprite.inCamera
-            s.onUpdate();
-        });
-
-    
-
-
-
     },
 
     render: () => {
 
-            game.debug.bodyInfo(objects[0].sprite, 32, 32)
+            
 
 /*
+
+        game.debug.bodyInfo(sets.objects[0].sprite, 32, 32)
+
         game.debug.cameraInfo(game.camera, 0, 32)
 
         game.debug.text(utilities['loadtime'], 0, 64);
         
-        game.debug.text(objects.map(s=>s.sprite.preUpdate()), 0, 128); 
+        game.debug.text(sets.objects.map(s=>s.sprite.preUpdate()), 0, 128); 
 
         game.debug.text("FPS: "+game.time.fps, gameX - 80, 64);
 

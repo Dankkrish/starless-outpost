@@ -38,7 +38,7 @@ PhysicalThing.prototype.setSprite = function(gameObj, pack){
 
      //s.body.bounce = new Phaser.Point(0,0)
     s.body.collideWorldBounds = true;
-    s.body.setSize(this.size[0], this.size[1], this.size[0]/4, this.size[1]/4); 
+    s.body.setSize(this.size[0], this.size[1], this.sizeOffset[0], this.sizeOffset[1]); 
 
     s.body.maxVelocity = this.stats.maxSpeed;   
 
@@ -150,6 +150,9 @@ Resident.prototype = new PhysicalThing();
 Resident.prototype.constructor = Resident;
 Resident.prototype.parent = PhysicalThing.prototype;
 
+PhysicalThing.prototype.size = [ 64, 32 ];
+PhysicalThing.prototype.sizeOffset = [ 0, 32 ];
+
 function Resident(spriteDefPack, utils){
 
     /*
@@ -160,6 +163,8 @@ function Resident(spriteDefPack, utils){
     */
 
     this.sprite = this.setSprite(utils["game"], spriteDefPack);
+
+
 
     this.seed = Math.random()
 
@@ -216,8 +221,6 @@ Resident.prototype.setOrder = function(task, params){
 //others
 Resident.prototype.implementOrder = function(){
 
-    console.log(this.order.inProgress)
-
     //if an order is in progress, but not done
     if(this.order.inProgress){
 
@@ -236,7 +239,8 @@ Resident.prototype.implementOrder = function(){
                 {
                     //this.sprite.body.velocity.setTo(0, 0);
                     this.order.inProgress = false;   
-                    this.setOrder("idle");               
+                    this.setOrder("idle"); 
+                    console.log("simple_move: destination reached; now idle")              
                 }else{
                 }
 
