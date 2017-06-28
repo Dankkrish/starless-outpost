@@ -58,8 +58,8 @@ PhysicalThing.prototype.deselectMe = function(){
 PhysicalThing.prototype.thrust = function(angle, speed){ 
 
     this.sprite.body.velocity.setTo(
-        Math.cos(angle) * speed, 
-        Math.sin(angle) * speed)    
+        Math.cos(angle*(Math.PI/180)) * speed, 
+        Math.sin(angle*(Math.PI/180)) * speed)    
 }
 
 PhysicalThing.prototype.onUpdate = function(){

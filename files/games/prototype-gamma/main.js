@@ -3,8 +3,8 @@ const gameY = 600;
 
 const tilesize = 32;
 
-const mapsizeX = 1024;
-const mapsizeY = 32;
+const mapsizeX = 256;
+const mapsizeY = 256;
 
 /*
     The smallest unit of "flawless loading."
@@ -149,10 +149,16 @@ var mainGame = {
         map.createBorders()
 
         //the objects
-        for(d=0;d<20;d++){
-            objects.push(new Resident({'x': 96+(d*tilesize*4), 'y': 96+(d*0), 'spritesheet': 'resident'}, utilities))
+        for(d=0;d<1000;d++){
 
-            objects[d].setOrder("simple_move", {destination: [512, 256], speed: 100})  
+            objects.push(
+                new Resident({
+                    'x': Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4, 
+                    'y': Math.floor(Math.random()*tilesize*(mapsizeY-8)) + tilesize*4, 
+                    'spritesheet': 'resident'
+                }, utilities))
+
+            objects[d].setOrder("simple_move", {destination: [tilesize*18, tilesize*12], speed: objects[d].stats.maxSpeed})  
 
         }          
 
@@ -170,7 +176,7 @@ var mainGame = {
 
         game.physics.arcade.collide(objects.map((e)=>e.sprite), map.layer);
 
-        sortedCollide(game, objects.map((e)=>e.sprite))
+        //sortedCollide(game, objects.map((e)=>e.sprite))
 
         objects.forEach(s=>{
            //s.sprite.renderable = s.sprite.inCamera

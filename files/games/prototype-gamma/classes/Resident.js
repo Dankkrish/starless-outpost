@@ -13,19 +13,22 @@ Resident.prototype.parent = PhysicalThing.prototype;
 PhysicalThing.prototype.size = [ 64, 24 ];
 PhysicalThing.prototype.sizeOffset = [ 0, 40 ];
 
+/*
+    CONSTRUCTOR
+
+    ...meaning input-dependent and/or object-unique properties 
+    and other actions if necessary
+*/
 function Resident(spriteDefPack, utils){
-
-    /*
-        CONSTRUCTOR
-
-        ...meaning input-dependent and/or object-unique properties 
-        and other actions if necessary
-    */
 
     this.sprite = this.setSprite(utils["game"], spriteDefPack);
 
-    this.debugText = utils["game"].add.text(this.sprite.body.x+16, this.sprite.body.y+16, this.sprite.body.velocity.x, 
-                {font: "32px Arial", fill: "white", align: "center"})  
+    this.debugText = utils["game"].add.text(0, 0, "empty", 
+                {font: "16px Arial", fill: "white", align: "center"})  
+
+    this.debugText.destroy()
+
+    this.testAngle = 0;
 
     //game properties
     this.order = { 
@@ -53,15 +56,39 @@ function Resident(spriteDefPack, utils){
 */
 Resident.prototype.stats.maxSpeed = 128;
 
+
+
+
+
+
+
+
+
 /*
     METHODS
 */
 //unique: none
 
-//implemented
+//implemented (inherited, with new functionality)
 Resident.prototype.onUpdate = function(){
     this.implementOrder();
-}
+
+/*
+    this.testAngle>=360 ? this.testAngle-=360 : this.testAngle += 1;
+    this.thrust(this.testAngle, 50)
+    console.log(this.testAngle)
+
+
+    this.debugText.x = this.sprite.body.x
+    this.debugText.y = this.sprite.body.y+16
+
+    this.debugText.setText(
+        Math.floor(this.sprite.body.velocity.x) + ", " +
+        Math.floor(this.sprite.body.velocity.y) + "| "
+    )
+*/
+
+} 
 
 //getters
 //none
@@ -87,6 +114,7 @@ Resident.prototype.implementOrder = function(){
         switch(this.order.task){
             case "idle":
                 this.sprite.body.velocity.setTo(0,0)
+                this.sprite.body.stopMovement()
                 break;
 
             case "simple_move":
@@ -94,8 +122,8 @@ Resident.prototype.implementOrder = function(){
                 
 
                 if(                
-                    Math.abs(this.order.params.destination[0] - this.sprite.body.x) < 3*tilesize &&
-                    Math.abs(this.order.params.destination[1] - this.sprite.body.y) < 3*tilesize)
+                    Math.abs(this.order.params.destination[0] - this.sprite.body.x) < 1*tilesize &&
+                    Math.abs(this.order.params.destination[1] - this.sprite.body.y) < 1*tilesize)
                 {
                     //this.sprite.body.velocity.setTo(0, 0);
                     this.order.inProgress = false;   
@@ -114,22 +142,25 @@ Resident.prototype.implementOrder = function(){
         switch(this.order.task){
             case "idle":
                 this.sprite.body.velocity.setTo(0,0)
+                this.sprite.body.stopMovement()
                 break;
 
             case "simple_move":
 
-                var angle = Math.atan(
-                        (this.order.params.destination[1] - this.sprite.body.y)
-                        /
-                        (this.order.params.destination[0] - this.sprite.body.x)
-                    )
+                let deltaY = this.order.params.destination[1] - this.sprite.body.y
+                let deltaX = this.order.params.destination[0] - this.sprite.body.x      
 
-                //console.log(Math.cos(angle) * this.order.params.speed+", "+Math.sin(angle) * this.order.params.speed)
+                let signX = deltaX <= 0 ? -1 : 1;
+                let signY = deltaY <= 0 ? -1 : 1;
+
+                let tan = Math.abs(deltaY) / Math.abs(deltaX);
+
+                let angle = Math.atan(tan)
 
                 //set motion
                 this.sprite.body.velocity.setTo(
-                    Math.cos(angle) * this.order.params.speed, 
-                    Math.sin(angle) * this.order.params.speed
+                    Math.cos(angle) * this.order.params.speed * signX, 
+                    Math.sin(angle) * this.order.params.speed * signY
                 );
 
                 break;

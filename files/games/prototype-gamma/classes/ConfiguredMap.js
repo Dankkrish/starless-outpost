@@ -11,6 +11,9 @@ function ConfiguredMap(x, y, tilesize, utils){
     this.tilemap = game.add.tilemap();
     this.layer = this.tilemap.create(utils['game'], x, y, tilesize, tilesize);
 
+    this.mapW = this.tilemap.width;
+    this.mapH = this.tilemap.height;
+
     //important performance update
     this.tilemap.setPreventRecalculate(true);
 
@@ -35,14 +38,13 @@ ConfiguredMap.prototype.swapArea = function(from, to, startx, starty, width, hei
 }
 
 ConfiguredMap.prototype.addTile = function(utils){
-    const mapW = this.tilemap.width;
-    const mapH = this.tilemap.height;
-    const full = mapW*mapH;
+
+    let full = this.mapW*this.mapH;
 
     this.tilemap.putTile(0, utils['pr_x'], utils['pr_y'], this.layer)
 
-    if(utils['pr_x']<mapW){
-        if(utils['pr_y'] == mapH){
+    if(utils['pr_x']<this.mapW){
+        if(utils['pr_y'] == this.mapH){
             utils['pr_x']++;
             utils['pr_y'] = 0;
         }else{
@@ -50,32 +52,28 @@ ConfiguredMap.prototype.addTile = function(utils){
         }            
     }
 
-    utils['progress'] = Math.ceil((((utils['pr_x']*mapH)+utils['pr_y'])/full)*100);
+    utils['progress'] = Math.ceil((((utils['pr_x']*this.mapH)+utils['pr_y'])/full)*100);
 
-    progress.setText("Map: "+utils['progress']+"% loaded. \n ("+((utils['pr_x']*mapH)+utils['pr_y'])+"/"+full+")") 
+    progress.setText("Map: "+utils['progress']+"% loaded. \n ("+((utils['pr_x']*this.mapH)+utils['pr_y'])+"/"+full+")") 
 
 }
 
 
 ConfiguredMap.prototype.createBorders = function(){
 
-    const mapW = this.tilemap.width;
-    const mapH = this.tilemap.height;
-
-
-    for(i=0; i<mapW-1; i++){     
+    for(i=0; i<this.mapW-1; i++){     
         this.tilemap.putTile(1, i, 0) 
     }
 
-    for(i=0; i<mapH-1; i++){     
-        this.tilemap.putTile(1, mapW-1, i) 
+    for(i=0; i<this.mapH-1; i++){     
+        this.tilemap.putTile(1, this.mapW-1, i) 
     } 
 
-    for(i=mapW-1; i>0; i--){     
-        this.tilemap.putTile(1, i, mapH-1) 
+    for(i=this.mapW-1; i>0; i--){     
+        this.tilemap.putTile(1, i, this.mapH-1) 
     }
 
-    for(i=mapH-1; i>0; i--){     
+    for(i=this.mapH-1; i>0; i--){     
         this.tilemap.putTile(1, 0, i) 
     }         
 
