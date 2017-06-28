@@ -5,16 +5,32 @@
     <title>Prototype Gamma: Colony Sim attempt</title>
 </head>
 <body>
-
+    
+    <!-- Phaser itself -->
     <script src="../files/phaser.js"></script>
 
-    <script async src="../files/games/prototype-gamma/keyboard.js"></script>   
-    <script async src="../files/games/prototype-gamma/functions.js"></script>
+    <!-- Phaser optimization -->
+    <script src="../files/games/prototype-gamma/optimization.js"></script>
 
-    <script async src="../files/games/prototype-gamma/classes/ConfiguredMap.js"></script>    
-    <script async src="../files/games/prototype-gamma/classes/PhysicalThings.js"></script>    
- 
-    <script async src="../files/games/prototype-gamma/main.js"></script>
+    <!-- 
+        game object classes, in order of inheritance 
+        
+        level 0: PhysicalThing
+        level 1:
+            - KatamoriBall (within the same file)
+            - Resident
+    -->
+    <script src="../files/games/prototype-gamma/classes/PhysicalThing.js"></script>    
+    <script src="../files/games/prototype-gamma/classes/Resident.js"></script>  
+
+    <!-- ConfiguredMap: an improved Phaser Tilemap -->
+    <script src="../files/games/prototype-gamma/classes/ConfiguredMap.js"></script>   
+
+    <!-- other parts of functionality -->
+    <script src="../files/games/prototype-gamma/keyboard.js"></script>   
+    
+    <!-- the central stack -->
+    <script src="../files/games/prototype-gamma/main.js"></script>
 
 </body>
 </html>

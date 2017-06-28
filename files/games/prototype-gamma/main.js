@@ -3,8 +3,8 @@ const gameY = 600;
 
 const tilesize = 32;
 
-const mapsizeX = 256;
-const mapsizeY = 256;
+const mapsizeX = 1024;
+const mapsizeY = 32;
 
 /*
     The smallest unit of "flawless loading."
@@ -41,10 +41,12 @@ var utilities = {
 
 var sets = {
     "texts": [],
-    "objects": [],
     "images": [],
     "sheets": [],
 }
+
+//also a set, but very frequently accessed
+var objects = [];
 
 var map =  [];
 var progress = [];
@@ -148,9 +150,9 @@ var mainGame = {
 
         //the objects
         for(d=0;d<20;d++){
-            sets.objects.push(new Resident({'x': 96+(d*tilesize*2), 'y': 96+(d*tilesize*5), 'spritesheet': 'resident'}, utilities))
+            objects.push(new Resident({'x': 96+(d*tilesize*4), 'y': 96+(d*0), 'spritesheet': 'resident'}, utilities))
 
-            sets.objects[d].setOrder("simple_move", {destination: [512, 256], speed: 100})  
+            objects[d].setOrder("simple_move", {destination: [512, 256], speed: 100})  
 
         }          
 
@@ -166,11 +168,11 @@ var mainGame = {
 
     update: () => {
 
-        game.physics.arcade.collide(sets.objects.map((e)=>e.sprite), map.layer);
+        game.physics.arcade.collide(objects.map((e)=>e.sprite), map.layer);
 
-        sortedCollide(game, sets.objects.map((e)=>e.sprite))
+        sortedCollide(game, objects.map((e)=>e.sprite))
 
-        sets.objects.forEach(s=>{
+        objects.forEach(s=>{
            //s.sprite.renderable = s.sprite.inCamera
             s.onUpdate();
         });
@@ -198,13 +200,13 @@ var mainGame = {
 
 /*
 
-        game.debug.bodyInfo(sets.objects[0].sprite, 32, 32)
+        game.debug.bodyInfo(objects[0].sprite, 32, 32)
 
         game.debug.cameraInfo(game.camera, 0, 32)
 
         game.debug.text(utilities['loadtime'], 0, 64);
         
-        game.debug.text(sets.objects.map(s=>s.sprite.preUpdate()), 0, 128); 
+        game.debug.text(objects.map(s=>s.sprite.preUpdate()), 0, 128); 
 
         game.debug.text("FPS: "+game.time.fps, gameX - 80, 64);
 
