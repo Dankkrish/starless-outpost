@@ -1,24 +1,26 @@
-const gameX = 800;
-const gameY = 600;
+/* 
+
+    In the beginning, God created the heavens and the earth. 
+
+    The earth was without form and void, and darkness was over the face of the deep. 
+    And the Spirit of God was hovering over the face of the waters.
+
+*/
+
+var gameX = 800;
+var gameY = 600;
+
+var game = new Phaser.Game(gameX, gameY, Phaser.CANVAS, '');
 
 const tilesize = 32;
 
 const mapsizeX = 128;
 const mapsizeY = 128;
 
-/*
-    The smallest unit of "flawless loading."
-    In other words: if Phaser is forced to add
-    more tiles to a tilemap in a single frame than
-    this value, then it'll cause a visible lag.
+//The smallest unit of "flawless loading."
+//2^15 is the best I could achieve for seamlessness
 
-    Planned feature for later times is to adjust
-    this value to the capabilities of the device
-    running it. maybe it's possible. Maybe not :'(
-
-    2^15 is the best I could achieve for seamlessness
-*/
-const loadingThreshold = Math.pow(2, 15);
+const loadingThreshold = Math.pow(2, 15);  
 
 const folder = '../files/games/prototype-gamma/';
 const GFX = folder + 'gfx/';
@@ -45,12 +47,20 @@ var sets = {
     "sheets": [],
 }
 
-//also a set, but very frequently accessed
-var objects = [];
+var objects = []; //also a set, but very frequently accessed
 
 var map =  [];
 var progress = [];
 
+/*
+
+    And God said, “Let the waters under the heavens be gathered together 
+    into one place, and let the dry land appear.” And it was so. 
+    
+    God called the dry land Earth, and the waters that were gathered 
+    together he called Seas. And God saw that it was good.   
+
+*/
 
 var loadMap = {
 
@@ -73,7 +83,7 @@ var loadMap = {
 
         window.graphics = graphics;
 
-        drawable = game.add.group();
+        drawable = game.add.group();      
 
     },
 
@@ -120,12 +130,17 @@ var loadMap = {
 
 
 
+/*
 
-
-
-
-
-
+    And God said, “Let the earth bring forth living creatures according to their kinds—livestock 
+    and creeping things and beasts of the earth according to their kinds.” And it was so. 
+    
+    And God made the beasts of the earth according to their kinds and the livestock according to 
+    their kinds, and everything that creeps on the ground according to its kind. 
+    
+    And God saw that it was good.
+    
+*/
 
 
 
@@ -134,9 +149,7 @@ var mainGame = {
     preload: () => {
 
         game.stage.disableVisibilityChange = true;
-
-
-        
+    
     },
 
 
@@ -228,8 +241,6 @@ var mainGame = {
 }
 
 //the matter itself
-var game = new Phaser.Game(gameX, gameY, Phaser.CANVAS, '');
-
 game.state.add('load', loadMap);
 game.state.add('main', mainGame);
 
