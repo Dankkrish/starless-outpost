@@ -22,7 +22,7 @@ const mapsizeY = 32;
 
 const loadingThreshold = Math.pow(2, 15);  
 
-const folder = '../files/games/prototype-gamma/';
+const folder = './files/';
 const GFX = folder + 'gfx/';
 
 var mouse = {

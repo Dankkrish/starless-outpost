@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Starless Outpost: Colony Sim attempt by Katamori</title>
+</head>
+<body>
+    
+    <!-- Phaser itself -->
+    <script src="./phaser.js"></script>
+
+    <!-- Phaser optimization -->
+    <script src="./files/optimization.js"></script>
+
+    <!-- 
+        game object classes, in order of inheritance; see docs/objects.md
+    -->
+    <script src="./files/classes/PhysicalThing.js"></script>   
+        <script src="./files/classes/KatamoriBall.js"></script>  
+
+        <script src="./files/classes/Human.js"></script> 
+            <script src="./files/classes/Resident.js"></script>  
+
+    <!-- ConfiguredMap: an improved Phaser Tilemap -->
+    <script src="./files/classes/ConfiguredMap.js"></script>   
+
+    <!-- other parts of functionality -->
+    <script src="./files/keyboard.js"></script>   
+    
+    <!-- the central stack -->
+    <script src="./files/main.js"></script>
+
+</body>
+</html>
