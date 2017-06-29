@@ -28,9 +28,6 @@ function Resident(initPos, utils){
 
     this.debugText.visible = false;
 
-    //must do something with it, or I'll go mad
-    this.order = {}
-
 }
 
 /*

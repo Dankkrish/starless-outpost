@@ -192,6 +192,8 @@ var mainGame = {
                 Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4
             ], speed: objects[d].stats.maxSpeed}) 
 
+
+
             objects[d].setName(Math.random()) 
 
         } 

@@ -62,6 +62,9 @@ Human.prototype.setName = function(str){
 }
 
 Human.prototype.setOrder = function(task, params){
+
+    this.order = {};
+
     this.order.task = task;
     this.order.params = params;   
     this.order.inProgress = false;
