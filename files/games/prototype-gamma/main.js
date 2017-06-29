@@ -14,8 +14,8 @@ var game = new Phaser.Game(gameX, gameY, Phaser.CANVAS, '');
 
 const tilesize = 32;
 
-const mapsizeX = 16;
-const mapsizeY = 16;
+const mapsizeX = 32;
+const mapsizeY = 32;
 
 //The smallest unit of "flawless loading."
 //2^15 is the best I could achieve for seamlessness
@@ -178,7 +178,7 @@ var mainGame = {
 
         */
         
-        for(d=0;d<3;d++){
+        for(d=0;d<300;d++){
 
             objects.push(
                 new Resident({

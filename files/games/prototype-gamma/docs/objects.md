@@ -26,13 +26,14 @@ Name.prototype = new Parent();
 Name.prototype.constructor = Parent;
 
 /*
+
     CONSTRUCTOR
 
-    ...meaning input-dependent and/or object-unique properties 
-    and other actions if necessary
 */
 
 function Name(inputs){
+
+    Parent.call(this, inputs)
 
     this.var = "value";
 
@@ -45,15 +46,7 @@ function Name(inputs){
 /*
     METHODS
 */
-//unique
-Name.prototype.ExampleFoo = function(){
-
-}
-
-//inherited
-
-
-//implemented (inherited, with new functionality)
+//overridden
 
 
 //getters

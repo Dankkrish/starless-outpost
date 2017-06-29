@@ -7,43 +7,46 @@
 */
 
 Human.prototype = new PhysicalThing();
-
-Human.prototype.size = [ 64, 24 ];
-Human.prototype.sizeOffset = [ 0, 40 ];
+Human.prototype.constructor = Human;
 
 /*
     CONSTRUCTOR
 
-    ...meaning input-dependent and/or object-unique properties 
-    and other actions if necessary
 */
 function Human(){
 
+    //inherit variables
+    PhysicalThing.call(this)
+
+    //stats
+    this.humanStats = { 
+        name: "new", 
+        gender: "male", 
+        age: 0
+    };
+
+    //current order
+    this.order = { 
+        task: "idle", 
+        params: null, 
+        inProgress: true 
+    };
 }
 
 /*
-    common variables
+    constants
 */
+Human.prototype.size = [ 64, 24 ];
+Human.prototype.sizeOffset = [ 0, 40 ];
+
 Human.prototype.stats.maxSpeed = 128;
 
-//stats
-Human.prototype.humanStats = { 
-    name: "new", 
-    gender: "male", 
-    age: 0
-};
-
-//current order
-Human.prototype.order = { 
-    task: "idle", 
-    params: null, 
-    inProgress: true 
-};
 
 /*
     METHODS
 */
-//unique: none
+//unique
+//none
 
 //implemented (inherited, with new functionality)
 Human.prototype.onUpdate = function(){
@@ -62,8 +65,6 @@ Human.prototype.setName = function(str){
 }
 
 Human.prototype.setOrder = function(task, params){
-
-    this.order = {};
 
     this.order.task = task;
     this.order.params = params;   
