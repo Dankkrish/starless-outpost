@@ -1,12 +1,11 @@
-<<<<<<< 2d23d8a9c48d0572c0ae26cb9f35b34303707ac2
 # Starless outpost
-=======
-<<<<<<< HEAD
-# katamori.github.io
-My personal Github site.
 
-Landing page is based on ["Grayscale by Start Bootstrap.](https://github.com/BlackrockDigital/startbootstrap-grayscale)
-=======
-# Starless outpost
->>>>>>> Initial commit (empty)
->>>>>>> 52ba212bca86cebe3e2324e9d490ac6878000424
+## Note on revision history
+
+Majority of the development of this project occured in the repository of katamori.github.io - I tried to rebase the corresponding branch as well and long as I could, but the result is slightly confusing now.
+
+Everything before the first merge between "dev" and "master" is rebased content, with conflict resolving commits being commented with single numbers.
+
+## About
+
+WIP
