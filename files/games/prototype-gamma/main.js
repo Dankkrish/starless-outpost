@@ -14,8 +14,8 @@ var game = new Phaser.Game(gameX, gameY, Phaser.CANVAS, '');
 
 const tilesize = 32;
 
-const mapsizeX = 128;
-const mapsizeY = 128;
+const mapsizeX = 16;
+const mapsizeY = 16;
 
 //The smallest unit of "flawless loading."
 //2^15 is the best I could achieve for seamlessness
@@ -148,41 +148,61 @@ var mainGame = {
 
     preload: () => {
 
+        progress.destroy();
+
         game.stage.disableVisibilityChange = true;
-    
+
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        //control
+        addKeys();
+
+        cursors = game.input.keyboard.createCursorKeys();
+
     },
 
 
     create: () => {
 
-        progress.destroy();
-        
+        /*
+
+            ...the map
+
+        */
+
         map.initialize();
 
-        //the objects
-        for(d=0;d<100;d++){
+        /*
+
+            ...the objects
+
+        */
+        
+        for(d=0;d<3;d++){
 
             objects.push(
                 new Resident({
                     'x': Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4, 
-                    'y': Math.floor(Math.random()*tilesize*(mapsizeY-8)) + tilesize*4, 
-                    'spritesheet': 'resident'
-                }, utilities))
+                    'y': Math.floor(Math.random()*tilesize*(mapsizeY-8)) + tilesize*4,
+                    'gameObj': game 
+                }))
 
             objects[d].setOrder("simple_move", { destination: [
                 Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4, 
                 Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4
-            ], speed: objects[d].stats.maxSpeed})  
+            ], speed: objects[d].stats.maxSpeed}) 
 
-        }          
+            objects[d].setName(Math.random()) 
 
-        //keyboard control
-        addKeys();
+        } 
 
-        //other shit
-        cursors = game.input.keyboard.createCursorKeys();
+        //let k = new KatamoriBall({'x': 64, 'y': 64, 'gameObj': game })
+        //k.thrust(Math.random()*90, 100)
 
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+        //objects.push(k) 
+
+        //objects[0].setName("Jebediah")
+        //objects[1].setName("Katamori")             
 
     },
 
@@ -193,10 +213,10 @@ var mainGame = {
         //sortedCollide(game, objects.map((e)=>e.sprite))
 
         objects.forEach(s=>{
-           //s.sprite.renderable = s.sprite.inCamera
+            //s.sprite.renderable = s.sprite.inCamera
             s.onUpdate();
         });
-
+               
 
 
         mouse.X = game.input.mousePointer.x;

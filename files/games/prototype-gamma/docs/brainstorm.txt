@@ -1,0 +1,32 @@
+colony simulator, with OO hierarchy
+
+scheme of objects:
+
+being
+    - params:
+        - drawable (to display it)
+        - health
+        - speed
+    - methods:
+        - moving
+        - attacking
+        - interaction
+        - death
+
+human (implements being)
+    - params:
+        - needs (TBD)
+    - methods:
+        TBD
+
+animal (implements being)
+    - params:
+        TBD
+    - methods:
+        TBD
+
+robot (implements being)
+    - params:
+        TBD
+    - methods:
+        TBD
