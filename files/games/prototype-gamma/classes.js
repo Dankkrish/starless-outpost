@@ -1,5 +1,5 @@
 //meta-objects
-function ConfiguredMap(x, y, tilesize){
+function ConfiguredMap(x, y, tilesize, utils){
 
     var self = this;
 
@@ -23,8 +23,19 @@ function ConfiguredMap(x, y, tilesize){
     //others
     this.createBorders = function(){
 
-        for(i=0;i<self.tilemap.width;i++){
-            for(j=0;j<self.tilemap.height;j++){
+        const mapW = self.tilemap.width;
+        const mapH = self.tilemap.height;
+
+        for(i=0;i<mapW;i++){
+            for(j=0;j<mapH;j++){
+
+                const full = mapW*mapH;
+                var percent = Math.ceil((((i*mapW)+j)/full)*100);
+
+                utils['progress'] = percent;
+
+                console.log("inside: "+utils['progress'])
+                progress.setText(utils['progress']) 
 
                 self.tilemap.putTile(0, i, j, self.layer)
 
@@ -39,20 +50,27 @@ function ConfiguredMap(x, y, tilesize){
 
     }
 
+    this.initialize = function(){
+
+        this.tilemap.addTilesetImage('tileset');
+        this.tilemap.setCollision([1,3]);
+
+        drawable.add(this.layer);
+        this.layer.resizeWorld();
+
+        //performance improvement theoretically
+        this.layer.renderSettings.enableScrollDelta = false;
+
+    }
+
     /*
         THE CONSTRUCTOR
     */
-    this.tilemap.addTilesetImage('tileset');
-    this.tilemap.setCollision([1,3]);
-
-    drawable.add(this.layer);
-    this.layer.resizeWorld();
-
-    //performance improvement theoretically
-    this.layer.renderSettings.enableScrollDelta = false;
 
     //add borders
     this.createBorders();
+
+
 
 
 }
