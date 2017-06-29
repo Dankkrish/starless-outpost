@@ -143,10 +143,8 @@ var mainGame = {
     create: () => {
 
         progress.destroy();
-
-        map.setGraphics()
-        map.initialize()
-        map.createBorders()
+        
+        map.initialize();
 
         //the objects
         for(d=0;d<100;d++){

@@ -91,10 +91,14 @@ ConfiguredMap.prototype.setGraphics = function(){
 
 ConfiguredMap.prototype.initialize = function(){
 
+    this.setGraphics();
+
     this.tilemap.setCollision([1,3]);
 
     //performance improvement theoretically
     this.layer.renderSettings.enableScrollDelta = false;
+
+    this.createBorders();
 
 }
 
