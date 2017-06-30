@@ -40,7 +40,7 @@ PhysicalThing.prototype.selected = false;
 //set sprite AND its physics
 PhysicalThing.prototype.setSprite = function(pack, spritesheet){
 
-    this.sprite = pack.gameObj.add.sprite(pack.x,pack.y, spritesheet);
+    this.sprite = drawable.create(pack.x,pack.y, spritesheet);
 
     
     pack.gameObj.physics.arcade.enable(this.sprite, Phaser.Physics.ARCADE);
@@ -53,13 +53,28 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
 }
 
 //others
+
+
+
+
 PhysicalThing.prototype.selectMe = function(previous){
+
     this.selected = true;
-    previous.deselectMe();
+
+    game.camera.follow(this.sprite) 
+
+    if(previous !== "init"){ 
+        previous.deselectMe();
+    }
+
 }
 
 PhysicalThing.prototype.deselectMe = function(){
+
     this.selected = false;
+
+    game.camera.unfollow()
+
 }
 
 PhysicalThing.prototype.thrust = function(angle, speed){ 

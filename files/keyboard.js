@@ -17,19 +17,19 @@ function addKeys(){
 var keyAction = {
 
     "scrollRight": function(){
-            game.camera.x += 1;
+            //game.camera.x += 1;
     },
 
     "scrollLeft": function(){
-            game.camera.x -= 1;
+            //game.camera.x -= 1;
     },
 
     "scrollDown": function(){
-            game.camera.y += 1;
+            //game.camera.y += 1;
     },
 
     "scrollUp": function(){
-            game.camera.y -= 1;
+            //game.camera.y -= 1;
     }
 
 }

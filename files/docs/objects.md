@@ -5,6 +5,7 @@ The ToC here functions as an inheritance tree - currently, that is the most impo
 * [Definition template](#definition-template)
 
 * [ConfiguredMap](#configuredmap)
+* [Scenario](#scenario)
 
 * [PhysicalThing](#physicalthing)
     * [KatamoriBall](#katamoriball)
@@ -61,6 +62,12 @@ function Name(inputs){
 ```
 
 # ConfiguredMap
+
+WIP
+
+# Scenario
+
+`Scenario` objects contain parameters of the initial states of a map. By triggering its `load()` function, it's easier to create certain use cases.
 
 WIP
 

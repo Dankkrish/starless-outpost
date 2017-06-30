@@ -7,7 +7,7 @@
 
 */
 
-var gameX = 800;
+var gameX = 1024;
 var gameY = 600;
 
 var game = new Phaser.Game(gameX, gameY, Phaser.CANVAS, '');
@@ -38,7 +38,7 @@ var utilities = {
     "progress": 0,
     "pr_x": 0,
     "pr_y": 0,
-    "game": "",
+    "game": game,
 };
 
 var sets = {
@@ -51,6 +51,27 @@ var objects = []; //also a set, but very frequently accessed
 
 var map =  [];
 var progress = [];
+
+var drawable;
+
+var GUI = [
+    { "x": 0, "y": 0, "w": 800, "h": 128 }
+]
+
+var HUDtop = [];
+
+var offset = tilesize/2
+
+function moveCam(axis, val){
+
+    
+    game.camera[axis] += val;
+
+}
+
+function setGUI(axis, extra){
+    GUI[0][axis] = game.camera[axis] + extra;
+}
 
 /*
 
@@ -66,28 +87,31 @@ var loadMap = {
 
     preload: () => { 
 
-        game.stage.disableVisibilityChange = true;
+        drawable = game.add.group();   
 
-        utilities['game'] = game;
-
+        /*
+            loading images and spritesheets
+        */
         game.load.image('katamori', GFX + 'katamori.png');
         game.load.image('resident', GFX + 'resident.png');
 
+        game.load.image('HUDtop', GFX + 'HUDtop.png');
+
         game.load.spritesheet('tileset', GFX + 'tileset.png', tilesize, tilesize);
 
+        /*
+            set some useful props
+        */
         game.renderer.renderSession.roundPixels = true
-
         game.time.advancedTiming = true;
 
-        var graphics = game.add.graphics(0, 0);
-
-        window.graphics = graphics;
-
-        drawable = game.add.group();      
+        game.camera.bounds = null
 
     },
 
     create: () => {   
+
+        HUDtop = game.add.sprite(0,0,'HUDtop')
 
         map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize, utilities);
         map.setGraphics()
@@ -101,12 +125,6 @@ var loadMap = {
     },
 
     update: () => { 
-
-
-
-        //graphics.beginFill(444444);
-        //graphics.drawRect(cover.x, cover.y, gameX, gameY); 
-        //graphics.endFill();    
 
         console.log(utilities["pr_x"]+' '+utilities["pr_y"])
 
@@ -159,6 +177,11 @@ var mainGame = {
 
         cursors = game.input.keyboard.createCursorKeys();
 
+        //gfx
+        var graphics = game.add.graphics(100, 100);
+
+        window.graphics = graphics;
+
     },
 
 
@@ -178,7 +201,7 @@ var mainGame = {
 
         */
         
-        for(d=0;d<300;d++){
+        for(d=0;d<3;d++){
 
             objects.push(
                 new Resident({
@@ -204,47 +227,105 @@ var mainGame = {
         //objects.push(k) 
 
         //objects[0].setName("Jebediah")
-        //objects[1].setName("Katamori")             
+        //objects[1].setName("Katamori")    
+
+        new Scenario("a").load("followTest")         
 
     },
 
     update: () => {
 
+        /*
+            calculate physics
+        */
         game.physics.arcade.collide(objects.map((e)=>e.sprite), map.layer);
 
-        //sortedCollide(game, objects.map((e)=>e.sprite))
+        sortedCollide(game, objects.map((e)=>e.sprite))
 
+
+
+        /*
+            update objects
+        */
         objects.forEach(s=>{
             //s.sprite.renderable = s.sprite.inCamera
             s.onUpdate();
         });
-               
 
 
+
+        /*
+            REASSING FREQUENTLY CHANGING VARS
+        */
         mouse.X = game.input.mousePointer.x;
         mouse.Y = game.input.mousePointer.y;
         mouse.tileX = Math.floor(game.input.mousePointer.x/tilesize);
         mouse.tileY = Math.floor(game.input.mousePointer.y/tilesize);
 
+        /*
+            keyboard listening
+        */
 
-        if(game.input.keyboard.isDown(Phaser.Keyboard["W"])){ game.camera.y-=tilesize/4 };
-        if(game.input.keyboard.isDown(Phaser.Keyboard["S"])){ game.camera.y+=tilesize/4 };
 
-        if(game.input.keyboard.isDown(Phaser.Keyboard["A"])){ game.camera.x-=tilesize/4 };
-        if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ game.camera.x+=tilesize/4 }; 
 
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard["W"])){ moveCam("y", -offset) };
+        if(game.input.keyboard.isDown(Phaser.Keyboard["S"])){ moveCam("y", +offset) };
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard["A"])){ moveCam("x", -offset) };
+        if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ moveCam("x", +offset) };
+    
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard["X"])){ 
+            game.camera.focusOnXY(tilesize*mapsizeX/2, tilesize*mapsizeY/2)};
+
+
+
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard["ESC"])){ 
+            objects[3].deselectMe()};
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard["E"])){ 
+            objects[3].selectMe("init")};            
+
+
+        /*
+            display gfx
+        */
+
+        setGUI("x")
+        setGUI("y")
+
+        HUDtop.x = GUI[0].x;
+        HUDtop.y = GUI[0].y;
 
     },
 
     render: () => {
 
-           game.debug.text("FPS: "+game.time.fps, gameX - 80, 64);         
+        if(
+            game.camera.x < tilesize-gameX ||
+            game.camera.y < tilesize-gameY ||     
+            game.camera.x > (tilesize*mapsizeX) ||
+            game.camera.y > (tilesize*mapsizeY)
+        ){
+            game.debug.text("Got lost? Press X to reset camera", gameX/2, 64); 
+        }
 
+
+
+        drawable.sort('y', Phaser.Group.SORT_ASCENDING)
+
+
+
+        game.debug.text("FPS: "+game.time.fps, 80, 64);    
+
+        game.debug.cameraInfo(game.camera, 0, 256)
 /*
 
         game.debug.bodyInfo(objects[0].sprite, 32, 32)
 
-        game.debug.cameraInfo(game.camera, 0, 32)
+        
 
         game.debug.text(utilities['loadtime'], 0, 64);
         
@@ -255,7 +336,7 @@ var mainGame = {
                                 Math.floor(mouse.tileY), gameX - 216, 96);
 
 
-        game.debug.text("camera: "+game.camera.x+","+game.camera.y, gameX - 160, 128);
+        
 */
         //for(d=0;d<20;d++){ game.debug.body(sprites.colonists[d]) };
 
