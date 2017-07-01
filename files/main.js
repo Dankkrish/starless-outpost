@@ -12,10 +12,10 @@ var gameY = 600;
 
 var game = new Phaser.Game(gameX, gameY, Phaser.CANVAS, '');
 
-const tilesize = 32;
+var tilesize = 32;
 
-const mapsizeX = 32;
-const mapsizeY = 32;
+var mapsizeX = 32;
+var mapsizeY = 24;
 
 //The smallest unit of "flawless loading."
 //2^15 is the best I could achieve for seamlessness
@@ -53,6 +53,12 @@ var map =  [];
 var progress = [];
 
 var drawable;
+
+var scenario = new Scenario("followTest");
+
+
+
+
 
 var GUI = [
     { "x": 0, "y": 0, "w": 800, "h": 128 }
@@ -113,20 +119,13 @@ var loadMap = {
 
         HUDtop = game.add.sprite(0,0,'HUDtop')
 
-        map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize, utilities);
-        map.setGraphics()
-
-        //titlepic.inputEnabled = true;
-        //titlepic.input.useHandCursor = true;
-        //titlepic.events.onInputDown.add(destroySprite, this);
+        scenario.setMap()
 
         progress = game.add.text(gameX/2, gameY/2, "Map: 0% loaded.", 
                 {font: "32px Arial", fill: "white", align: "center"})         
     },
 
     update: () => { 
-
-        console.log(utilities["pr_x"]+' '+utilities["pr_y"])
 
         if(utilities["pr_x"] < mapsizeX){
 
@@ -140,9 +139,7 @@ var loadMap = {
 
     },
 
-    render: () => {
-
-    }
+    render: () => { }
 
 }
 
@@ -187,50 +184,8 @@ var mainGame = {
 
     create: () => {
 
-        /*
-
-            ...the map
-
-        */
-
-        map.initialize();
-
-        /*
-
-            ...the objects
-
-        */
+        scenario.load()         
         
-        for(d=0;d<3;d++){
-
-            objects.push(
-                new Resident({
-                    'x': Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4, 
-                    'y': Math.floor(Math.random()*tilesize*(mapsizeY-8)) + tilesize*4,
-                    'gameObj': game 
-                }))
-
-            objects[d].setOrder("simple_move", { destination: [
-                Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4, 
-                Math.floor(Math.random()*tilesize*(mapsizeX-8)) + tilesize*4
-            ], speed: objects[d].stats.maxSpeed}) 
-
-
-
-            objects[d].setName(Math.random()) 
-
-        } 
-
-        //let k = new KatamoriBall({'x': 64, 'y': 64, 'gameObj': game })
-        //k.thrust(Math.random()*90, 100)
-
-        //objects.push(k) 
-
-        //objects[0].setName("Jebediah")
-        //objects[1].setName("Katamori")    
-
-        new Scenario("a").load("followTest")         
-
     },
 
     update: () => {
