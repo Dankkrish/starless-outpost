@@ -20,10 +20,12 @@ Scenario.prototype.setAmounts = function (){
 
             this.objectAmounts.KatamoriBall = 2;
             this.objectAmounts.Resident = 10;
-
             break;
 
+        case "crowdTest":
 
+            this.objectAmounts.Resident = 100;
+            break;
     }
 
 }
@@ -40,6 +42,12 @@ Scenario.prototype.setMap = function(){
 
             break;
 
+        case "crowdTest":
+
+            mapsizeX = 12;
+            mapsizeY = 12;
+
+            break;
 
     }
 
@@ -54,48 +62,63 @@ Scenario.prototype.load = function(){
     //initialize map
     map.initialize()
 
-    //set objects and their amounts
+    //load objects
     let pack = { 'x': 0, 'y': 0, 'gameObj': game };
+
+    for(d=0;d<this.objectAmounts.KatamoriBall;d++){
+
+        pack.x = myRandom(tilesize*4, tilesize*(mapsizeX-8))
+        pack.y = myRandom(tilesize*4, tilesize*(mapsizeY-8))
+        
+        objects.push( new KatamoriBall(pack) )
+    }
+
+    for(d=0;d<this.objectAmounts.Resident;d++){
+
+        pack.x = myRandom(tilesize*4, tilesize*(mapsizeX-8))
+        pack.y = myRandom(tilesize*4, tilesize*(mapsizeY-8))
+
+        objects.push(new Resident(pack))
+    }  
 
     
     switch(this.type){
 
         case "followTest":
 
-
-
-
-            for(d=0;d<this.objectAmounts.KatamoriBall;d++){
-
-                pack.x = myRandom(tilesize*4, tilesize*(mapsizeX-8))
-                pack.y = myRandom(tilesize*4, tilesize*(mapsizeY-8))
-                
-                objects.push( new KatamoriBall(pack) )
-            }
-
-            for(d=0;d<this.objectAmounts.Resident;d++){
-
-                pack.x = myRandom(tilesize*4, tilesize*(mapsizeX-8))
-                pack.y = myRandom(tilesize*4, tilesize*(mapsizeY-8))
-
-                let obj = new Resident(pack)
-
-                
-
-                //setting up a simple "move" order
-                obj.setOrder("simple_move", { destination: [
-                    myRandom(tilesize*4, tilesize*(mapsizeX-8)),
-                    myRandom(tilesize*4, tilesize*(mapsizeY-8))
-                ], speed: obj.stats.maxSpeed})  
-
-                objects.push(obj)
-            }    
-
             objects[0].selectMe("init"); 
 
+            objects.forEach(s=>{
+                if (typeof s.order != "undefined"){
 
+                    //setting up a simple "move" order
+                    s.setOrder("simple_move", { destination: [
+                        myRandom(tilesize*4, tilesize*(mapsizeX-8)),
+                        myRandom(tilesize*4, tilesize*(mapsizeY-8))
+                    ], speed: s.stats.maxSpeed})  
+
+                }
+            })
 
             break;
+
+        case "crowdTest":
+
+
+            objects.forEach(s=>{
+                if (typeof s.order != "undefined"){
+
+                    //setting up a simple "move" order
+                    s.setOrder("simple_move", { destination: [
+                        myRandom(tilesize*4, tilesize*(mapsizeX-8)),
+                        myRandom(tilesize*4, tilesize*(mapsizeY-8))
+                    ], speed: s.stats.maxSpeed})  
+
+                }
+            })
+
+            break;
+            
 
     }
 

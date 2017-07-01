@@ -54,7 +54,7 @@ var progress = [];
 
 var drawable;
 
-var scenario = new Scenario("followTest");
+var scenario = [];
 
 
 
@@ -88,6 +88,11 @@ function setGUI(axis, extra){
     together he called Seas. And God saw that it was good.   
 
 */
+
+var scenarioInit = {
+    "followTest":   { preload: () => { scenario = new Scenario("followTest"); game.state.start('load')}},
+    "crowdTest":    { preload: () => { scenario = new Scenario("crowdTest");  game.state.start('load')}},    
+}
 
 var loadMap = {
 
@@ -185,7 +190,7 @@ var mainGame = {
     create: () => {
 
         scenario.load()         
-        
+
     },
 
     update: () => {
@@ -243,6 +248,14 @@ var mainGame = {
         if(game.input.keyboard.isDown(Phaser.Keyboard["E"])){ 
             objects[3].selectMe("init")};            
 
+//temporarily disabled
+/*
+        if(game.input.keyboard.isDown(Phaser.Keyboard["C"])){ 
+            game.state.start("crowdTest")};
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard["F"])){ 
+            game.state.start("followTest")};
+*/
 
         /*
             display gfx
@@ -299,7 +312,10 @@ var mainGame = {
 }
 
 //the matter itself
+game.state.add('followTest', scenarioInit.followTest);
+game.state.add('crowdTest', scenarioInit.crowdTest);
+
 game.state.add('load', loadMap);
 game.state.add('main', mainGame);
 
-game.state.start('load');
+game.state.start('followTest');
