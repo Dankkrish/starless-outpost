@@ -18,9 +18,11 @@ function Resident(initPos, utils){
     //inherit variables
     Human.call(this)
 
-    //create sprite and body
-    this.setSprite(initPos, 'resident');
+    this.setGender("random")
 
+    //create sprite and body
+    this.setSprite(initPos, 'resident_'+this.humanStats.gender);
+    
     //debug-text setup
     let game = initPos.gameObj;
 

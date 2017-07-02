@@ -6,6 +6,8 @@ Features that sound quite good to add.
 
 * origin building >> MCV of C&C + Storage of Banished/Settlers
 
+* make building interiors separate tilemaps
+
 # Orders
 
 * Queue

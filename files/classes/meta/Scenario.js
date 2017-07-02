@@ -44,9 +44,8 @@ Scenario.prototype.setMap = function(){
 
         case "crowdTest":
 
-            mapsizeX = 32;
-            mapsizeY = 24;
-
+            mapsizeX = Math.ceil(gameX/tilesize)
+            mapsizeY = Math.ceil(gameY/tilesize)
             break;
 
     }

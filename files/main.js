@@ -121,7 +121,10 @@ var loadMap = {
             loading images and spritesheets
         */
         game.load.image('katamori', GFX + 'katamori.png');
-        game.load.image('resident', GFX + 'resident.png');
+
+        game.load.image('resident_male', GFX + 'resident_m.png');
+        game.load.image('resident_female', GFX + 'resident_f.png');
+        game.load.image('resident_transgender', GFX + 'resident_t.png');        
 
         game.load.image('HUDtop', GFX + 'HUDtop.png');
 

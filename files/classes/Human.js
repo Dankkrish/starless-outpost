@@ -71,6 +71,45 @@ Human.prototype.setOrder = function(task, params){
     this.order.inProgress = false;
 }
 
+Human.prototype.setGender = function(g){
+
+    let options = ["male", "female", "transgender"];
+
+    if (options.indexOf(g) === -1){
+        if (g === "random"){
+
+            let gend = 0;
+            let rand = Math.random()*100;
+
+            if(rand <= 49){
+                gend = 0;
+            }else if(rand > 49 && rand <= 98){
+                gend = 1;
+            }else if(rand > 98 && rand <= 100){
+                gend = 2;
+            }
+
+            this.humanStats.gender = options[gend];
+        }
+    }else{
+        this.humanStats.gender = g;
+    }
+
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //others
 Human.prototype.implementOrder = function(){
 
