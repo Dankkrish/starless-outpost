@@ -1,4 +1,4 @@
-function ConfiguredMap(x, y, tilesize, utils){
+function ConfiguredMap(x, y, tilesize){
 
     /*
         CONSTRUCTOR
@@ -9,7 +9,7 @@ function ConfiguredMap(x, y, tilesize, utils){
     */
 
     this.tilemap = game.add.tilemap();
-    this.layer = this.tilemap.create(utils['game'], x, y, tilesize, tilesize);
+    this.layer = this.tilemap.create(game, x, y, tilesize, tilesize);
 
     this.mapW = this.tilemap.width;
     this.mapH = this.tilemap.height;

@@ -24,7 +24,7 @@ Scenario.prototype.setAmounts = function (){
 
         case "crowdTest":
 
-            this.objectAmounts.Resident = 100;
+            this.objectAmounts.Resident = 300;
             break;
     }
 
@@ -44,14 +44,14 @@ Scenario.prototype.setMap = function(){
 
         case "crowdTest":
 
-            mapsizeX = 12;
-            mapsizeY = 12;
+            mapsizeX = 32;
+            mapsizeY = 24;
 
             break;
 
     }
 
-    map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize, utilities);
+    map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize);
     map.setGraphics();
 
 }

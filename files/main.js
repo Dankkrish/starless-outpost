@@ -47,14 +47,14 @@ var sets = {
     "sheets": [],
 }
 
-var objects = []; //also a set, but very frequently accessed
+var objects; //also a set, but very frequently accessed
 
-var map =  [];
+var map;
 var progress = [];
 
 var drawable;
 
-var scenario = [];
+var scenario;
 
 
 
@@ -89,9 +89,26 @@ function setGUI(axis, extra){
 
 */
 
+var scenarioCase = (type) => {
+
+    map = [];  
+    objects = [];
+
+    utilities = {
+        "progress": 0,
+        "pr_x": 0,
+        "pr_y": 0,
+        "game": game,
+    };
+
+    scenario = new Scenario(type); 
+    
+    game.state.start('load')
+}
+
 var scenarioInit = {
-    "followTest":   { preload: () => { scenario = new Scenario("followTest"); game.state.start('load')}},
-    "crowdTest":    { preload: () => { scenario = new Scenario("crowdTest");  game.state.start('load')}},    
+    "followTest":   { preload: () => { scenarioCase("followTest") }},
+    "crowdTest":    { preload: () => { scenarioCase("crowdTest") }},    
 }
 
 var loadMap = {
@@ -249,13 +266,13 @@ var mainGame = {
             objects[3].selectMe("init")};            
 
 //temporarily disabled
-/*
+
         if(game.input.keyboard.isDown(Phaser.Keyboard["C"])){ 
             game.state.start("crowdTest")};
 
         if(game.input.keyboard.isDown(Phaser.Keyboard["F"])){ 
             game.state.start("followTest")};
-*/
+
 
         /*
             display gfx
