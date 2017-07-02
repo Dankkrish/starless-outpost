@@ -96,6 +96,9 @@ Human.prototype.implementOrder = function(){
                     this.setOrder("idle"); 
                     console.log("simple_move: destination reached; now idle")              
                 }else{
+
+                    //set motion again in case of being pushed away
+                    this.setMotionTowards(this.order.params.destination, this.order.params.speed)
                 }
 
 
@@ -113,28 +116,35 @@ Human.prototype.implementOrder = function(){
 
             case "simple_move":
 
-                let deltaY = this.order.params.destination[1] - this.sprite.body.y
-                let deltaX = this.order.params.destination[0] - this.sprite.body.x      
-
-                let signX = deltaX <= 0 ? -1 : 1;
-                let signY = deltaY <= 0 ? -1 : 1;
-
-                let tan = Math.abs(deltaY) / Math.abs(deltaX);
-
-                let angle = Math.atan(tan)
-
-                //set motion
-                this.sprite.body.velocity.setTo(
-                    Math.cos(angle) * this.order.params.speed * signX, 
-                    Math.sin(angle) * this.order.params.speed * signY
-                );
-
+                this.setMotionTowards(this.order.params.destination, this.order.params.speed)
                 break;
         }
 
         this.order.inProgress = true;
        
     }
+
+}
+
+Human.prototype.setMotionTowards = function(coords, spd){
+
+    let deltaY = coords[1] - this.sprite.body.y
+    let deltaX = coords[0] - this.sprite.body.x      
+
+    let signX = deltaX <= 0 ? -1 : 1;
+    let signY = deltaY <= 0 ? -1 : 1;
+
+    let tan = Math.abs(deltaY) / Math.abs(deltaX);
+
+    let angle = Math.atan(tan)
+
+    let vector = [
+        Math.cos(angle) * spd * signX, 
+        Math.sin(angle) * spd * signY
+    ]
+
+    //set motion, if it has a different value
+    this.sprite.body.velocity.setTo(vector[0], vector[1]);
 
 }
 

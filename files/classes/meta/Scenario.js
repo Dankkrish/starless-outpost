@@ -24,7 +24,7 @@ Scenario.prototype.setAmounts = function (){
 
         case "crowdTest":
 
-            this.objectAmounts.Resident = 300;
+            this.objectAmounts.Resident = 500;
             break;
     }
 
@@ -67,16 +67,16 @@ Scenario.prototype.load = function(){
 
     for(d=0;d<this.objectAmounts.KatamoriBall;d++){
 
-        pack.x = myRandom(tilesize*4, tilesize*(mapsizeX-8))
-        pack.y = myRandom(tilesize*4, tilesize*(mapsizeY-8))
+        pack.x = myRandom(tilesize*3, tilesize*(mapsizeX-6))
+        pack.y = myRandom(tilesize*3, tilesize*(mapsizeY-6))
         
         objects.push( new KatamoriBall(pack) )
     }
 
     for(d=0;d<this.objectAmounts.Resident;d++){
 
-        pack.x = myRandom(tilesize*4, tilesize*(mapsizeX-8))
-        pack.y = myRandom(tilesize*4, tilesize*(mapsizeY-8))
+        pack.x = myRandom(tilesize*3, tilesize*(mapsizeX-6))
+        pack.y = myRandom(tilesize*3, tilesize*(mapsizeY-6))
 
         objects.push(new Resident(pack))
     }  
@@ -93,8 +93,8 @@ Scenario.prototype.load = function(){
 
                     //setting up a simple "move" order
                     s.setOrder("simple_move", { destination: [
-                        myRandom(tilesize*4, tilesize*(mapsizeX-8)),
-                        myRandom(tilesize*4, tilesize*(mapsizeY-8))
+                        myRandom(tilesize*3, tilesize*(mapsizeX-6)),
+                        myRandom(tilesize*3, tilesize*(mapsizeY-6))
                     ], speed: s.stats.maxSpeed})  
 
                 }
@@ -110,8 +110,8 @@ Scenario.prototype.load = function(){
 
                     //setting up a simple "move" order
                     s.setOrder("simple_move", { destination: [
-                        myRandom(tilesize*4, tilesize*(mapsizeX-8)),
-                        myRandom(tilesize*4, tilesize*(mapsizeY-8))
+                        myRandom(tilesize*3, tilesize*(mapsizeX-6)),
+                        myRandom(tilesize*3, tilesize*(mapsizeY-6))
                     ], speed: s.stats.maxSpeed})  
 
                 }
