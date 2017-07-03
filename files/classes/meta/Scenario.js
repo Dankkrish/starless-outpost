@@ -85,6 +85,8 @@ Scenario.prototype.load = function(){
 
         case "followTest":
 
+            map.fillArea(1, Math.floor(mapsizeX/3), Math.floor(mapsizeY/3), Math.floor(mapsizeX/2), 4)
+
             objects[0].selectMe("init"); 
 
             objects.forEach(s=>{
@@ -102,6 +104,9 @@ Scenario.prototype.load = function(){
             break;
 
         case "crowdTest":
+
+
+            map.fillArea(1, Math.floor(mapsizeX/4), Math.floor(mapsizeY/4), 4, 4)
 
 
             objects.forEach(s=>{

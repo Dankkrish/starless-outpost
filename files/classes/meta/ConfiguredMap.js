@@ -24,16 +24,19 @@ function ConfiguredMap(x, y, tilesize){
 */
 
 //getters
-ConfiguredMap.prototype.getSize = function(){ return [self.tilemap.width, self.tilemap.height] }
+ConfiguredMap.prototype.getSize = function(){ 
+    return [self.tilemap.width, self.tilemap.height]
+ }
 
 
 //setters
 //none yet
 
 //others
-ConfiguredMap.prototype.swapArea = function(from, to, startx, starty, width, height){
+ConfiguredMap.prototype.fillArea = function(to, startx, starty, width, height){
 
-    this.tilemap.swap(from, to, startx, starty, width, height, this.layer)
+    this.tilemap.fill(to, startx, starty, width, height, this.layer)
+    this.tilemap.setCollision([1,3]);
 
 }
 
@@ -61,21 +64,13 @@ ConfiguredMap.prototype.addTile = function(utils){
 
 ConfiguredMap.prototype.createBorders = function(){
 
-    for(i=0; i<this.mapW-1; i++){     
-        this.tilemap.putTile(1, i, 0) 
-    }
 
-    for(i=0; i<this.mapH-1; i++){     
-        this.tilemap.putTile(1, this.mapW-1, i) 
-    } 
+    this.tilemap.fill(1, 0,             0,              this.mapW-1, 1, this.layer)
+    this.tilemap.fill(1, 0,             0,              1, this.mapH-1, this.layer)
+    this.tilemap.fill(1, this.mapW-1,   0,              1, this.mapH-1, this.layer)
+    this.tilemap.fill(1, 0,             this.mapH-1,    this.mapW-0, 1, this.layer)
 
-    for(i=this.mapW-1; i>0; i--){     
-        this.tilemap.putTile(1, i, this.mapH-1) 
-    }
-
-    for(i=this.mapH-1; i>0; i--){     
-        this.tilemap.putTile(1, 0, i) 
-    }         
+    this.tilemap.setCollision([1,3]);
 
 }
 
