@@ -26,6 +26,11 @@ Scenario.prototype.setAmounts = function (){
 
             this.objectAmounts.Resident = 500;
             break;
+
+        case "giantMap":
+
+            this.objectAmounts.Resident = 1200;
+            break;            
     }
 
 }
@@ -48,6 +53,12 @@ Scenario.prototype.setMap = function(){
             mapsizeY = Math.ceil(gameY/tilesize)
             break;
 
+        case "giantMap":
+
+            mapsizeX = 200;
+            mapsizeY = 200;
+
+            break;
     }
 
     map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize);
@@ -123,6 +134,22 @@ Scenario.prototype.load = function(){
 
             break;
             
+        case "giantMap":
+
+            objects.forEach(s=>{
+                if (typeof s.order != "undefined"){
+
+                    //setting up a simple "move" order
+                    s.setOrder("simple_move", { destination: [
+                        myRandom(tilesize*1, tilesize*(mapsizeX-2)),
+                        myRandom(tilesize*2, tilesize*(mapsizeY-2))
+                    ], speed: s.stats.maxSpeed})  
+
+                }
+            })
+
+            break;
+
 
     }
 

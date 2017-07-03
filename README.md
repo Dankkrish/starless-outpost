@@ -37,6 +37,8 @@ Since this document is still work in progress, I may post some exact methods on 
 
 `C` to load `crowdTest` scenario.
 
+`G` to load `giantMap` scenario.
+
 ### Debug
 
 `B` to toggle object hitboxes.

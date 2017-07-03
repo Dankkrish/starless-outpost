@@ -27,7 +27,7 @@ function Resident(initPos, utils){
     this.debugText = game.add.text(0, 0, "empty", 
                 {font: "16px Arial", fill: "white", align: "center"})  
 
-    //this.debugText.visible = false;
+    this.debugText.visible = false;
 
 }
 

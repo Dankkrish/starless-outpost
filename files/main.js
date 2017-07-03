@@ -108,7 +108,8 @@ var scenarioCase = (type) => {
 
 var scenarioInit = {
     "followTest":   { preload: () => { scenarioCase("followTest") }},
-    "crowdTest":    { preload: () => { scenarioCase("crowdTest") }},    
+    "crowdTest":    { preload: () => { scenarioCase("crowdTest") }},  
+    "giantMap":     { preload: () => { scenarioCase("giantMap") }},        
 }
 
 var loadMap = {
@@ -268,13 +269,16 @@ var mainGame = {
         if(game.input.keyboard.isDown(Phaser.Keyboard["E"])){ 
             objects[3].selectMe("init")};            
 
+
+
         if(game.input.keyboard.isDown(Phaser.Keyboard["C"])){ 
             game.state.start("crowdTest")};
 
         if(game.input.keyboard.isDown(Phaser.Keyboard["F"])){ 
             game.state.start("followTest")};
 
-        
+        if(game.input.keyboard.isDown(Phaser.Keyboard["G"])){ 
+            game.state.start("giantMap")};        
 
             
 
@@ -335,6 +339,7 @@ var mainGame = {
 //the matter itself
 game.state.add('followTest', scenarioInit.followTest);
 game.state.add('crowdTest', scenarioInit.crowdTest);
+game.state.add('giantMap', scenarioInit.giantMap);
 
 game.state.add('load', loadMap);
 game.state.add('main', mainGame);

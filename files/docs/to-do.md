@@ -21,3 +21,7 @@ Features that sound quite good to add.
 * Terminus Nation >> Frontier + Starless Space >> Aurost ruins
 
 * Select faction at the beginning >> unsure about it tho
+
+# Misc
+
+* implement pathfinding (preferably A*)
