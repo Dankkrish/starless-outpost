@@ -1,18 +1,20 @@
+/*
+    CONSTRUCTOR
+*/
 function ConfiguredMap(x, y, tilesize){
 
-    /*
-        CONSTRUCTOR
+    x > mapMax ? x = mapMax : x = x;
+    y > mapMax ? y = mapMax : y = y;    
 
-        ...meaning input-dependent and/or 
-        object-unique properties and 
-        other actions if necessary
-    */
 
     this.tilemap = game.add.tilemap();
     this.layer = this.tilemap.create(game, x, y, tilesize, tilesize);
 
     this.mapW = this.tilemap.width;
     this.mapH = this.tilemap.height;
+
+    mapsizeX = this.mapW;
+    mapsizeY = this.mapH;
 
     this.collisionTiles = [1, 3, 4]
 

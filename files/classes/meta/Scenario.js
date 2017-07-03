@@ -29,7 +29,8 @@ Scenario.prototype.setAmounts = function (){
 
         case "giantMap":
 
-            this.objectAmounts.Resident = 1200;
+            this.objectAmounts.KatamoriBall = 1000;        
+            this.objectAmounts.Resident = 1000;
             break;            
     }
 
@@ -55,8 +56,8 @@ Scenario.prototype.setMap = function(){
 
         case "giantMap":
 
-            mapsizeX = 200;
-            mapsizeY = 200;
+            mapsizeX = 10000;
+            mapsizeY = 10000;
 
             break;
     }

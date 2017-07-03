@@ -25,3 +25,5 @@ Features that sound quite good to add.
 # Misc
 
 * implement pathfinding (preferably A*)
+
+* define new groups for collision optimization

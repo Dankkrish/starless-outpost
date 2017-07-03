@@ -17,6 +17,9 @@ var tilesize = 32;
 var mapsizeX = 32;
 var mapsizeY = 24;
 
+const mapMax = 1024;
+const maxObj = 2000;
+
 //The smallest unit of "flawless loading."
 //2^15 is the best I could achieve for seamlessness
 
@@ -38,7 +41,6 @@ var utilities = {
     "progress": 0,
     "pr_x": 0,
     "pr_y": 0,
-    "game": game,
 };
 
 var sets = {
