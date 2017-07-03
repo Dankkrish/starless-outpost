@@ -25,6 +25,7 @@ PhysicalThing.prototype.sizeOffset = null;
 
 PhysicalThing.prototype.stats = {
     "maxSpeed": null,
+    "mass": null
 }
 
 PhysicalThing.prototype.selected = false;
@@ -48,7 +49,8 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.setSize(this.size[0], this.size[1], this.sizeOffset[0], this.sizeOffset[1]); 
 
-    this.sprite.body.maxVelocity = this.stats.maxSpeed;   
+    this.sprite.body.maxVelocity = this.stats.maxSpeed;  
+    this.sprite.body.mass = this.stats.mass; 
 
 }
 
@@ -92,10 +94,7 @@ PhysicalThing.prototype.attachText = function(textObj){
     textObj.x = this.sprite.body.x
     textObj.y = this.sprite.body.y+16
 
-    this.debugText.setText(
-        Math.floor(this.sprite.body.velocity.x) + ", " +
-        Math.floor(this.sprite.body.velocity.y) + "| "
-    )
+    this.debugText.setText("stats: ")
 };
 
 PhysicalThing.prototype.debugReport = function(params){

@@ -66,16 +66,16 @@ Scenario.prototype.load = function(){
 
     for(d=0;d<this.objectAmounts.KatamoriBall;d++){
 
-        pack.x = myRandom(tilesize*3, tilesize*(mapsizeX-6))
-        pack.y = myRandom(tilesize*3, tilesize*(mapsizeY-6))
+        pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+        pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
         
         objects.push( new KatamoriBall(pack) )
     }
 
     for(d=0;d<this.objectAmounts.Resident;d++){
 
-        pack.x = myRandom(tilesize*3, tilesize*(mapsizeX-6))
-        pack.y = myRandom(tilesize*3, tilesize*(mapsizeY-6))
+        pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+        pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
 
         objects.push(new Resident(pack))
     }  
@@ -94,8 +94,8 @@ Scenario.prototype.load = function(){
 
                     //setting up a simple "move" order
                     s.setOrder("simple_move", { destination: [
-                        myRandom(tilesize*3, tilesize*(mapsizeX-6)),
-                        myRandom(tilesize*3, tilesize*(mapsizeY-6))
+                        myRandom(tilesize*2, tilesize*(mapsizeX-4)),
+                        myRandom(tilesize*2, tilesize*(mapsizeY-4))
                     ], speed: s.stats.maxSpeed})  
 
                 }
@@ -114,8 +114,8 @@ Scenario.prototype.load = function(){
 
                     //setting up a simple "move" order
                     s.setOrder("simple_move", { destination: [
-                        myRandom(tilesize*3, tilesize*(mapsizeX-6)),
-                        myRandom(tilesize*3, tilesize*(mapsizeY-6))
+                        myRandom(tilesize*2, tilesize*(mapsizeX-4)),
+                        myRandom(tilesize*2, tilesize*(mapsizeY-4))
                     ], speed: s.stats.maxSpeed})  
 
                 }

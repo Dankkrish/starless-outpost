@@ -29,6 +29,7 @@ KatamoriBall.prototype.size = [ 64, 64 ];
 KatamoriBall.prototype.sizeOffset = [ 16, 16 ];
 
 KatamoriBall.prototype.stats.maxSpeed = 500;
+KatamoriBall.prototype.stats.mass = 0.2
 
 /*
     common variables

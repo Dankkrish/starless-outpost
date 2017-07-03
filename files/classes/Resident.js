@@ -18,8 +18,6 @@ function Resident(initPos, utils){
     //inherit variables
     Human.call(this)
 
-    this.setGender("random")
-
     //create sprite and body
     this.setSprite(initPos, 'resident_'+this.humanStats.gender);
     
@@ -29,7 +27,7 @@ function Resident(initPos, utils){
     this.debugText = game.add.text(0, 0, "empty", 
                 {font: "16px Arial", fill: "white", align: "center"})  
 
-    this.debugText.visible = false;
+    //this.debugText.visible = false;
 
 }
 
@@ -51,7 +49,6 @@ function Resident(initPos, utils){
 //none
 
 //implemented (inherited, with new functionality)
-//none
 
 //getters
 //none

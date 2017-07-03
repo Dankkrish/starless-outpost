@@ -1,1 +1,1 @@
-var myRandom = (min, max) => Math.floor(Math.random()*max) + min;
+var myRandom = (min, max) => Math.floor(Math.random()*(max-min)) + min;

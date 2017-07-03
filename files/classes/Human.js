@@ -22,7 +22,8 @@ function Human(){
     this.humanStats = { 
         name: "new", 
         gender: "male", 
-        age: 0
+        age: 0,
+        weight: "80"
     };
 
     //current order
@@ -31,6 +32,8 @@ function Human(){
         params: null, 
         inProgress: true 
     };
+
+    this.setStatsAuto()
 }
 
 /*
@@ -52,17 +55,36 @@ Human.prototype.stats.maxSpeed = 128;
 Human.prototype.onUpdate = function(){
     this.implementOrder();
 
-    this.debugReport(["alive", "well"])
-} 
+    this.debugReport([this.humanStats.gender, this.humanStats.weight])
+
+}
 
 //getters
 //none
 
 //setters
+Human.prototype.setStatsAuto = function(){
+
+    this.setGender("random")
+    this.setWeight(myRandom(50, 120))
+
+
+    
+}
+
 Human.prototype.setName = function(str){
 
     this.humanStats.name = str;
 }
+
+Human.prototype.setWeight = function(num){
+
+    this.humanStats.weight = num;
+    this.stats.mass = num/80
+}
+
+
+
 
 Human.prototype.setOrder = function(task, params){
 
