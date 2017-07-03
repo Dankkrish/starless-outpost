@@ -158,13 +158,19 @@ Human.prototype.implementOrder = function(){
                     //this.sprite.body.velocity.setTo(0, 0);
                     this.order.inProgress = false;   
                     this.setOrder("idle"); 
-       
+
                 }else{
 
                     //set motion again in case of being pushed away
                     //this.setMotionTowards(this.order.params.destination, this.order.params.speed)
-                }
 
+                    this.destination.setTo(
+                        this.sprite.body.x,
+                        this.sprite.body.y,
+                        this.order.params.destination[0],
+                        this.order.params.destination[1]) 
+
+                }
 
                 break;
         }

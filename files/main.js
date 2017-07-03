@@ -300,7 +300,13 @@ var mainGame = {
     render: () => {
 
         if(game.input.keyboard.isDown(Phaser.Keyboard["B"])){ 
-            objects.forEach(s=>game.debug.body(s.sprite))};    
+            objects.forEach(
+                s=>{
+                    game.debug.body(s.sprite);
+                    typeof s.destination != "null" ? game.debug.geom(s.destination) : 1;
+                }
+            
+            )};    
 
         drawable.sort('y', Phaser.Group.SORT_ASCENDING)
 

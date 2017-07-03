@@ -28,6 +28,8 @@ function Resident(initPos, utils){
                 {font: "16px Arial", fill: "white", align: "center"})  
 
     this.debugText.visible = false;
+
+    this.destination = new Phaser.Line(0, 0, 0, 0)
 }
 
 /*
