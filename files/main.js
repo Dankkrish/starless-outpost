@@ -239,52 +239,12 @@ var mainGame = {
 
 
         /*
-            REASSING FREQUENTLY CHANGING VARS
+            REASSIGN FREQUENTLY CHANGING VARS
         */
         mouse.X = game.input.mousePointer.x;
         mouse.Y = game.input.mousePointer.y;
         mouse.tileX = Math.floor(game.input.mousePointer.x/tilesize);
         mouse.tileY = Math.floor(game.input.mousePointer.y/tilesize);
-
-        /*
-            keyboard listening
-        */
-
-
-
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["W"])){ moveCam("y", -offset) };
-        if(game.input.keyboard.isDown(Phaser.Keyboard["S"])){ moveCam("y", +offset) };
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["A"])){ moveCam("x", -offset) };
-        if(game.input.keyboard.isDown(Phaser.Keyboard["D"])){ moveCam("x", +offset) };
-    
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["X"])){ 
-            game.camera.focusOnXY(tilesize*mapsizeX/2, tilesize*mapsizeY/2)};
-
-
-
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["ESC"])){ 
-            objects[3].deselectMe()};
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["E"])){ 
-            objects[3].selectMe("init")};            
-
-
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["C"])){ 
-            game.state.start("crowdTest")};
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["F"])){ 
-            game.state.start("followTest")};
-
-        if(game.input.keyboard.isDown(Phaser.Keyboard["G"])){ 
-            game.state.start("giantMap")};        
-
-            
-
 
         /*
             display gfx
@@ -353,4 +313,4 @@ game.state.add('giantMap', scenarioInit.giantMap);
 game.state.add('load', loadMap);
 game.state.add('main', mainGame);
 
-game.state.start('followTest');
+game.state.start('crowdTest');

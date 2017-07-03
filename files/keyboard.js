@@ -1,47 +1,92 @@
 /*
-this functions goes through every element of keyTable array which
-contains every action appearing in-game and heir corresponding key
+    1: action name
+    2: default key for that action
+    3: is it continuous? (or happens once per down)
 */
+var defaultKeys = [
+    ["scrollUp", "W", true],
+    ["scrollDown", "S", true], 
+    ["scrollLeft", "A", true],
+    ["scrollRight", "D", true],
+    ["resetCamera", "X", true],
+
+    ["selectObject", "E", false],
+    ["deselectObject", "ESC", false],
+
+    ["startScenario_1", "F", false],
+    ["startScenario_2", "C", false],
+    ["startScenario_3", "G", false],
+
+]
 
 function addKeys(){
 
-    for(f=0;f<keyTable.length;f++){
+    for(f=0;f<defaultKeys.length;f++){
 
         //the first line defines a PhaserJS Key object in "customKeys"
-        //the second line defined a "happens only once" callback to that key
-        customKeys[keyTable[f][0]] = game.input.keyboard.addKey(Phaser.Keyboard[keyTable[f][1]]);
-        customKeys[keyTable[f][0]].onDown.add(keyAction[keyTable[f][0]], this);
+        //the second line defines a callback to that key (either one-time or continuous)
+        customKeys[defaultKeys[f][0]] = game.input.keyboard.addKey(Phaser.Keyboard[defaultKeys[f][1]]);
+
+        if ( defaultKeys[f][2] ) {
+            customKeys[defaultKeys[f][0]].onHoldCallback = keyAction[defaultKeys[f][0]];
+        } else {
+            customKeys[defaultKeys[f][0]].onDown.add( keyAction[defaultKeys[f][0]] );
+        }
+
     }
 }
 
 var keyAction = {
 
-    "scrollRight": function(){
-            //game.camera.x += 1;
+    "scrollRight": () => {
+        moveCam("x", +offset)
     },
 
-    "scrollLeft": function(){
-            //game.camera.x -= 1;
+    "scrollLeft": () => {
+        moveCam("x", -offset)
     },
 
-    "scrollDown": function(){
-            //game.camera.y += 1;
+    "scrollDown": () => {
+        moveCam("y", +offset)
     },
 
-    "scrollUp": function(){
-            //game.camera.y -= 1;
-    }
+    "scrollUp": () => {
+        moveCam("y", -offset)
+    },
+
+    "resetCamera": () => {
+        game.camera.focusOnXY(tilesize*mapsizeX/2, tilesize*mapsizeY/2)
+    },
+
+
+
+
+    "deselectObject": () => {
+        objects[3].deselectMe()
+    },
+
+    "selectObject": () => {
+        objects[3].selectMe("init")
+    },
+
+
+
+
+
+    "startScenario_1": () => { 
+        game.state.start("followTest")
+    },
+
+    "startScenario_2": () => { 
+        game.state.start("crowdTest")
+    },
+
+    "startScenario_3": () => { 
+        game.state.start("giantMap")
+    },
+
+
 
 }
 
-
-//key bindings
-var customKeys = { "scrollUp": "a", "scrollDown": "b", "scrollLeft": "c", "scrollRight": "d" }
-
-var keyTable = [
-    ["scrollUp", "W"],
-    ["scrollDown", "S"],   
-    ["scrollLeft", "A"],
-    ["scrollRight", "D"]
-
-]
+var customKeys = {  }

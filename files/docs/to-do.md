@@ -22,6 +22,10 @@ Features that sound quite good to add.
 
 * Select faction at the beginning >> unsure about it tho
 
+# Input
+
+* create a function for assigning functionality to a new key
+
 # Misc
 
 * implement pathfinding (preferably A*)
