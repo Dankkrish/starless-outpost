@@ -14,6 +14,8 @@ function ConfiguredMap(x, y, tilesize){
     this.mapW = this.tilemap.width;
     this.mapH = this.tilemap.height;
 
+    this.collisionTiles = [1, 3, 4]
+
     //important performance update
     this.tilemap.setPreventRecalculate(true);
 
@@ -36,7 +38,7 @@ ConfiguredMap.prototype.getSize = function(){
 ConfiguredMap.prototype.fillArea = function(to, startx, starty, width, height){
 
     this.tilemap.fill(to, startx, starty, width, height, this.layer)
-    this.tilemap.setCollision([1,3]);
+    this.tilemap.setCollision(this.collisionTiles);
 
 }
 
@@ -70,7 +72,7 @@ ConfiguredMap.prototype.createBorders = function(){
     this.tilemap.fill(1, this.mapW-1,   0,              1, this.mapH-1, this.layer)
     this.tilemap.fill(1, 0,             this.mapH-1,    this.mapW-0, 1, this.layer)
 
-    this.tilemap.setCollision([1,3]);
+    this.tilemap.setCollision(this.collisionTiles);
 
 }
 
@@ -88,7 +90,7 @@ ConfiguredMap.prototype.initialize = function(){
 
     this.setGraphics();
 
-    this.tilemap.setCollision([1,3]);
+    this.tilemap.setCollision(this.collisionTiles);
 
     //performance improvement theoretically
     this.layer.renderSettings.enableScrollDelta = false;
