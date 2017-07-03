@@ -26,6 +26,8 @@ function PhysicalThing(){
         "mass": null
     }
 
+    this.inputHandler;
+
     this.selected = false;
 
 }
@@ -57,7 +59,11 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
         this.sprite.body.maxVelocity = this.stats.maxSpeed; 
     }
      
-    this.sprite.body.mass = this.stats.mass;  
+    this.sprite.body.mass = this.stats.mass; 
+
+
+
+    this.inputHandler = new Phaser.InputHandler(this.sprite)
 
 }
 
@@ -70,6 +76,8 @@ PhysicalThing.prototype.selectMe = function(previous){
 
     this.selected = true;
 
+    currentObject = this;
+
     game.camera.follow(this.sprite) 
 
     if(previous !== "init"){ 
@@ -81,6 +89,8 @@ PhysicalThing.prototype.selectMe = function(previous){
 PhysicalThing.prototype.deselectMe = function(){
 
     this.selected = false;
+
+    currentObject = null;
 
     game.camera.unfollow()
 

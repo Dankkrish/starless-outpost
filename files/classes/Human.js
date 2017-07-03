@@ -65,6 +65,10 @@ Human.prototype.onUpdate = function(){
 
     this.debugReport([this.humanStats.gender, this.humanStats.weight])
 
+    if (this.inputHandler.pointerOver(0)) {
+        console.log("over")
+    }
+
 }
 
 //getters

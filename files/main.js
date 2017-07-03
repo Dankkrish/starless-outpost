@@ -22,7 +22,6 @@ const maxObj = 2000;
 
 //The smallest unit of "flawless loading."
 //2^15 is the best I could achieve for seamlessness
-
 const loadingThreshold = Math.pow(2, 15);  
 
 const folder = './files/';
@@ -37,29 +36,16 @@ var mouse = {
 
 }
 
-var utilities = {};
-
-var sets = {
-    "texts": [],
-    "images": [],
-    "sheets": [],
-}
-
-var objects; //also a set, but very frequently accessed
-
+var utilities;
+var objects;
 var map;
 var progress = [];
-
 var drawable;
-
 var scenario;
 
-
-
-
-
 var GUI = [
-    { "x": 0, "y": 0, "w": 800, "h": 128 }
+    { "x": 0, "y": 0, "w": 800, "h": 128 },     //upper HUD
+    new Phaser.Rectangle(),                     //selected object's outline
 ]
 
 var HUDtop = [];
@@ -67,15 +53,14 @@ var HUDtop = [];
 var offset = tilesize/2
 
 function moveCam(axis, val){
-
-    
     game.camera[axis] += val;
-
 }
 
 function setGUI(axis, extra){
     GUI[0][axis] = game.camera[axis] + extra;
 }
+
+var currentObject = null;
 
 /*
 
@@ -271,10 +256,12 @@ var mainGame = {
 /*
         game.debug.cameraInfo(game.camera, 0, 256)
         game.debug.bodyInfo(objects[0].sprite, 32, 32)
-        game.debug.text("mouse: "+mouse.X+","+mouse.Y+"|"+
-                                Math.floor(+mouse.tileX)+","+
-                                Math.floor(mouse.tileY), gameX - 216, 96);      
 */
+        game.debug.text("mouse: "+mouse.X+","+mouse.Y+"|"+
+                                (mouse.X+game.camera.x)+","+(mouse.Y+game.camera.y)+"|"+
+                                Math.floor(+mouse.tileX)+","+
+                                Math.floor(mouse.tileY), gameX - 320, 96);      
+
 
 
     }
