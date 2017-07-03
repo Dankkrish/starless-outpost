@@ -9,8 +9,9 @@ The ToC here functions as an inheritance tree - currently, that is the most impo
 
 * [PhysicalThing](#physicalthing)
     * [KatamoriBall](#katamoriball)
-    * [Human](#human)
-        * [Resident](#resident)
+    * [Vulnerable](#vulnerable)
+        * [Human](#human)
+            * [Resident](#resident)
 
 # Definition template
 
@@ -79,10 +80,14 @@ WIP
 
 WIP
 
-## Human
+### Vulnerable
+
+WIP
+
+#### Human
         
 WIP 
 
-### Resident
+#### Resident
         
 WIP        

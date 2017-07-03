@@ -12,23 +12,25 @@
 */
 function PhysicalThing(){
 
+    /*
+        constants
+    */ 
+    this.sprite;
+    this.debugText;    
+
+    this.size;
+    this.sizeOffset;
+
+    this.stats = {
+        "maxSpeed": null,
+        "mass": null
+    }
+
+    this.selected = false;
+
 }
 
-/*
-    constants
-*/ 
-PhysicalThing.prototype.sprite = null;
-PhysicalThing.prototype.debugText = null;    
 
-PhysicalThing.prototype.size = null;
-PhysicalThing.prototype.sizeOffset = null;
-
-PhysicalThing.prototype.stats = {
-    "maxSpeed": null,
-    "mass": null
-}
-
-PhysicalThing.prototype.selected = false;
 
 /*
 

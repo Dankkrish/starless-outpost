@@ -1,24 +1,15 @@
 /*
     class Human
 
-    inherits from PhysicalThing
+    inherits from Vulnerable
 
     base objects for human characters, defining human-specific characteristics
 */
 
-Human.prototype = new PhysicalThing();
+Human.prototype = new Vulnerable();
 Human.prototype.constructor = Human;
 
-/*
-    constants
-*/
-Human.prototype.size = [ 32, 24 ];
-Human.prototype.sizeOffset = [ 8, 24 ];
 
-Human.prototype.stats = {
-    "maxSpeed": 128,
-    "mass": 1
-}
 
 /*
     CONSTRUCTOR
@@ -27,7 +18,21 @@ Human.prototype.stats = {
 function Human(){
 
     //inherit variables
-    PhysicalThing.call(this)
+    Vulnerable.call(this)
+
+    /*
+        constants
+    */
+    this.size = [ 32, 24 ];
+    this.sizeOffset = [ 8, 24 ];
+
+    this.HP = 100;
+    this.maxHP = 100;
+
+    this.stats = {
+        "maxSpeed": 128,
+        "mass": 1
+    }
 
     //stats
     this.humanStats = { 

@@ -33,14 +33,6 @@ function Resident(initPos, utils){
 }
 
 /*
-    common variables
-*/
-//none yet
-
-
-
-
-/*
     METHODS
 */
 //unique
