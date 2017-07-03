@@ -19,7 +19,7 @@ Scenario.prototype.setAmounts = function (){
         case "followTest":
 
             this.objectAmounts.KatamoriBall = 2;
-            this.objectAmounts.Resident = 10;
+            this.objectAmounts.Resident = 50;
             break;
 
         case "crowdTest":
@@ -105,10 +105,7 @@ Scenario.prototype.load = function(){
                 if (typeof s.order != "undefined"){
 
                     //setting up a simple "move" order
-                    s.setOrder("simple_move", { destination: [
-                        myRandom(tilesize*2, tilesize*(mapsizeX-4)),
-                        myRandom(tilesize*2, tilesize*(mapsizeY-4))
-                    ], speed: s.stats.maxSpeed})  
+                    s.setOrder("idle", { })  
 
                 }
             })

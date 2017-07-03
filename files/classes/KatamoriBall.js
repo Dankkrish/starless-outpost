@@ -10,6 +10,14 @@
 KatamoriBall.prototype = new PhysicalThing();
 KatamoriBall.prototype.constructor = KatamoriBall;
 
+KatamoriBall.prototype.size = [ 80, 88 ];
+KatamoriBall.prototype.sizeOffset = [ 0, 0 ];
+
+PhysicalThing.prototype.stats = {
+    "maxSpeed": 256,
+    "mass": 0.3
+}
+
 /*
     CONSTRUCTOR
 
@@ -20,16 +28,19 @@ function KatamoriBall(initPos, utils){
     PhysicalThing.call(this)
 
     this.setSprite(initPos, 'katamori');
-    this.sprite.body.bounce = new Phaser.Point(1,1)
+    this.sprite.body.bounce = new Phaser.Point(0.95, 0.95)
 
-    this.thrust(30, 1000)
+    this.thrust(30, this.stats.maxSpeed)
+
+    //debug-text setup
+    this.debugText = initPos.gameObj.add.text(0, 0, "empty", 
+                {font: "16px Arial", fill: "white", align: "center"})
+
+    this.debugText.visible = false;                  
 }
 
-KatamoriBall.prototype.size = [ 64, 64 ];
-KatamoriBall.prototype.sizeOffset = [ 16, 16 ];
 
-KatamoriBall.prototype.stats.maxSpeed = 500;
-KatamoriBall.prototype.stats.mass = 0.2
+
 
 /*
     common variables
@@ -41,4 +52,9 @@ KatamoriBall.prototype.stats.mass = 0.2
 /*
     METHODS
 */
-//none 
+//implemented (inherited, with new functionality)
+KatamoriBall.prototype.onUpdate = function(){
+
+    this.debugReport([Math.floor(this.sprite.body.velocity.x), Math.floor(this.sprite.body.velocity.y)])
+
+}

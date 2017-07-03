@@ -41,6 +41,8 @@ PhysicalThing.prototype.selected = false;
 //set sprite AND its physics
 PhysicalThing.prototype.setSprite = function(pack, spritesheet){
 
+
+
     this.sprite = drawable.create(pack.x,pack.y, spritesheet);
 
     
@@ -49,8 +51,11 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.setSize(this.size[0], this.size[1], this.sizeOffset[0], this.sizeOffset[1]); 
 
-    this.sprite.body.maxVelocity = this.stats.maxSpeed;  
-    this.sprite.body.mass = this.stats.mass; 
+    if (this.stats.maxSpeed != -1){
+        this.sprite.body.maxVelocity = this.stats.maxSpeed; 
+    }
+     
+    this.sprite.body.mass = this.stats.mass;  
 
 }
 
@@ -92,7 +97,7 @@ PhysicalThing.prototype.onUpdate = function(){
 
 PhysicalThing.prototype.attachText = function(textObj){
     textObj.x = this.sprite.body.x
-    textObj.y = this.sprite.body.y+16
+    textObj.y = this.sprite.body.y+this.size[1]+4
 
     this.debugText.setText("stats: ")
 };

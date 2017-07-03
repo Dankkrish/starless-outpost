@@ -28,7 +28,6 @@ function Resident(initPos, utils){
                 {font: "16px Arial", fill: "white", align: "center"})  
 
     this.debugText.visible = false;
-
 }
 
 /*

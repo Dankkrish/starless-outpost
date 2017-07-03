@@ -10,6 +10,17 @@ Human.prototype = new PhysicalThing();
 Human.prototype.constructor = Human;
 
 /*
+    constants
+*/
+Human.prototype.size = [ 32, 24 ];
+Human.prototype.sizeOffset = [ 8, 24 ];
+
+Human.prototype.stats = {
+    "maxSpeed": 128,
+    "mass": 1
+}
+
+/*
     CONSTRUCTOR
 
 */
@@ -34,16 +45,8 @@ function Human(){
     };
 
     this.setStatsAuto()
+
 }
-
-/*
-    constants
-*/
-Human.prototype.size = [ 32, 24 ];
-Human.prototype.sizeOffset = [ 8, 24 ];
-
-Human.prototype.stats.maxSpeed = 128;
-
 
 /*
     METHODS
@@ -155,11 +158,11 @@ Human.prototype.implementOrder = function(){
                     //this.sprite.body.velocity.setTo(0, 0);
                     this.order.inProgress = false;   
                     this.setOrder("idle"); 
-                    console.log("simple_move: destination reached; now idle")              
+       
                 }else{
 
                     //set motion again in case of being pushed away
-                    this.setMotionTowards(this.order.params.destination, this.order.params.speed)
+                    //this.setMotionTowards(this.order.params.destination, this.order.params.speed)
                 }
 
 
