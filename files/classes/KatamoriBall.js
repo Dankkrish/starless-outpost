@@ -26,7 +26,7 @@ function KatamoriBall(initPos, utils){
 }
 
 KatamoriBall.prototype.size = [ 64, 64 ];
-KatamoriBall.prototype.sizeOffset = [ 32, 32 ];
+KatamoriBall.prototype.sizeOffset = [ 16, 16 ];
 
 KatamoriBall.prototype.stats.maxSpeed = 500;
 

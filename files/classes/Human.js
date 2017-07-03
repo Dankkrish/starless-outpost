@@ -36,7 +36,7 @@ function Human(){
 /*
     constants
 */
-Human.prototype.size = [ 40, 24 ];
+Human.prototype.size = [ 32, 24 ];
 Human.prototype.sizeOffset = [ 8, 24 ];
 
 Human.prototype.stats.maxSpeed = 128;
