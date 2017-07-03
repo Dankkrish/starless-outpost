@@ -33,11 +33,13 @@ Since this document is still work in progress, I may post some exact methods on 
 
 ### Scenarios
 
-`F` to load `followTest` scenario. If it's already loaded, this button reloads.
+`1` to load `followTest` scenario.
 
-`C` to load `crowdTest` scenario.
+`2` to load `crowdTest` scenario.
 
-`G` to load `giantMap` scenario.
+`3` to load `giantMap` scenario.
+
+`4` to load `strandedPeople` scenario.
 
 ### Debug
 

@@ -16,7 +16,7 @@ function ConfiguredMap(x, y, tilesize){
     mapsizeX = this.mapW;
     mapsizeY = this.mapH;
 
-    this.collisionTiles = [1, 3, 4]
+    this.collisionTiles = [1, 3, 5]
 
     //important performance update
     this.tilemap.setPreventRecalculate(true);
@@ -48,7 +48,22 @@ ConfiguredMap.prototype.addTile = function(utils){
 
     let full = this.mapW*this.mapH;
 
-    this.tilemap.putTile(0, utils['pr_x'], utils['pr_y'], this.layer)
+    let p = myRandom(0, 100)
+    let t = 0
+
+    if ( p >= 0 && p < 67){
+        t = 0
+    } else if ( p >=67 && p < 70 ){
+        t = 1
+    } else if ( p >=70 && p < 85 ){
+        t = 2
+    } else if ( p >=85 && p < 90 ){
+        t = 3
+    } else if ( p >=90 && p < 100 ){
+        t = 4
+    }       
+
+    this.tilemap.putTile(t, utils['pr_x'], utils['pr_y'], this.layer)
 
     if(utils['pr_x']<this.mapW){
         if(utils['pr_y'] == this.mapH){

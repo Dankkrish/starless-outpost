@@ -37,11 +37,7 @@ var mouse = {
 
 }
 
-var utilities = {
-    "progress": 0,
-    "pr_x": 0,
-    "pr_y": 0,
-};
+var utilities = {};
 
 var sets = {
     "texts": [],
@@ -109,9 +105,10 @@ var scenarioCase = (type) => {
 }
 
 var scenarioInit = {
-    "followTest":   { preload: () => { scenarioCase("followTest") }},
-    "crowdTest":    { preload: () => { scenarioCase("crowdTest") }},  
-    "giantMap":     { preload: () => { scenarioCase("giantMap") }},        
+    "followTest":       { preload: () => { scenarioCase("followTest") }},
+    "crowdTest":        { preload: () => { scenarioCase("crowdTest") }},  
+    "giantMap":         { preload: () => { scenarioCase("giantMap") }},  
+    "strandedPeople":   { preload: () => { scenarioCase("strandedPeople") }},            
 }
 
 var loadMap = {
@@ -232,10 +229,8 @@ var mainGame = {
             update objects
         */
         objects.forEach(s=>{
-            //s.sprite.renderable = s.sprite.inCamera
             s.onUpdate();
         });
-
 
 
         /*
@@ -260,14 +255,6 @@ var mainGame = {
 
     render: () => {
 
-        if(game.input.keyboard.isDown(Phaser.Keyboard["B"])){ 
-            objects.forEach(
-                s=>{
-                    game.debug.body(s.sprite);
-                    typeof s.destination != "null" ? game.debug.geom(s.destination) : 1;
-                }
-            
-            )};    
 
         drawable.sort('y', Phaser.Group.SORT_ASCENDING)
 
@@ -280,27 +267,15 @@ var mainGame = {
             game.debug.text("Got lost? Press X to reset camera", gameX/2, 64); 
         }
 
-        game.debug.text("FPS: "+game.time.fps, 80, 64);    
-
-        game.debug.cameraInfo(game.camera, 0, 256)
+        game.debug.text("FPS: "+game.time.fps, gameX-80, gameY-12);    
 /*
-
+        game.debug.cameraInfo(game.camera, 0, 256)
         game.debug.bodyInfo(objects[0].sprite, 32, 32)
-
-        
-
-        game.debug.text(utilities['loadtime'], 0, 64);
-        
-        game.debug.text(objects.map(s=>s.sprite.preUpdate()), 0, 128); 
-
         game.debug.text("mouse: "+mouse.X+","+mouse.Y+"|"+
                                 Math.floor(+mouse.tileX)+","+
-                                Math.floor(mouse.tileY), gameX - 216, 96);
-
-
-        
+                                Math.floor(mouse.tileY), gameX - 216, 96);      
 */
-        //for(d=0;d<20;d++){ game.debug.body(sprites.colonists[d]) };
+
 
     }
 }
@@ -309,8 +284,9 @@ var mainGame = {
 game.state.add('followTest', scenarioInit.followTest);
 game.state.add('crowdTest', scenarioInit.crowdTest);
 game.state.add('giantMap', scenarioInit.giantMap);
+game.state.add('strandedPeople', scenarioInit.strandedPeople);
 
 game.state.add('load', loadMap);
 game.state.add('main', mainGame);
 
-game.state.start('crowdTest');
+game.state.start('strandedPeople');

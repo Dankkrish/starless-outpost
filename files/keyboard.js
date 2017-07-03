@@ -13,9 +13,12 @@ var defaultKeys = [
     ["selectObject", "E", false],
     ["deselectObject", "ESC", false],
 
-    ["startScenario_1", "F", false],
-    ["startScenario_2", "C", false],
-    ["startScenario_3", "G", false],
+    ["debugData", "B", true],
+
+    ["startScenario_1", "ONE", false],
+    ["startScenario_2", "TWO", false],
+    ["startScenario_3", "THREE", false],
+    ["startScenario_4", "FOUR", false],    
 
 ]
 
@@ -73,6 +76,25 @@ var keyAction = {
 
 
 
+
+
+    "debugData": () => {
+        objects.forEach(
+            s=>{
+                game.debug.body(s.sprite);
+                typeof s.destination != "null" ? game.debug.geom(s.destination) : 1;
+            })        
+    },
+
+
+
+
+
+
+
+
+
+
     "startScenario_1": () => { 
         game.state.start("followTest")
     },
@@ -85,6 +107,10 @@ var keyAction = {
         game.state.start("giantMap")
     },
 
+    "startScenario_4": () => { 
+        game.state.start("strandedPeople")
+    },
+    
 
 
 }

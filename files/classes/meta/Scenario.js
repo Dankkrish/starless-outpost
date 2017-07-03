@@ -31,7 +31,12 @@ Scenario.prototype.setAmounts = function (){
 
             this.objectAmounts.KatamoriBall = 1000;        
             this.objectAmounts.Resident = 1000;
-            break;            
+            break; 
+
+        case "strandedPeople":
+      
+            this.objectAmounts.Resident = 7;
+            break;                        
     }
 
 }
@@ -60,6 +65,13 @@ Scenario.prototype.setMap = function(){
             mapsizeY = 10000;
 
             break;
+
+        case "strandedPeople":
+
+            mapsizeX = 96;
+            mapsizeY = 96;
+
+            break;          
     }
 
     map = new ConfiguredMap(mapsizeX, mapsizeY, tilesize);
@@ -76,26 +88,26 @@ Scenario.prototype.load = function(){
     //load objects
     let pack = { 'x': 0, 'y': 0, 'gameObj': game };
 
-    for(d=0;d<this.objectAmounts.KatamoriBall;d++){
 
-        pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
-        pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
-        
-        objects.push( new KatamoriBall(pack) )
-    }
-
-    for(d=0;d<this.objectAmounts.Resident;d++){
-
-        pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
-        pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
-
-        objects.push(new Resident(pack))
-    }  
-
-    
     switch(this.type){
 
         case "followTest":
+
+            for(d=0;d<this.objectAmounts.KatamoriBall;d++){
+
+                pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+                pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
+                
+                objects.push( new KatamoriBall(pack) )
+            }
+
+            for(d=0;d<this.objectAmounts.Resident;d++){
+
+                pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+                pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
+
+                objects.push(new Resident(pack))
+            }  
 
             map.fillArea(1, Math.floor(mapsizeX/3), Math.floor(mapsizeY/3), Math.floor(mapsizeX/2), 4)
 
@@ -114,9 +126,21 @@ Scenario.prototype.load = function(){
 
         case "crowdTest":
 
+            for(d=0;d<this.objectAmounts.KatamoriBall;d++){
 
-            //map.fillArea(1, Math.floor(mapsizeX/4), Math.floor(mapsizeY/4), 4, 4)
+                pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+                pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
+                
+                objects.push( new KatamoriBall(pack) )
+            }
 
+            for(d=0;d<this.objectAmounts.Resident;d++){
+
+                pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+                pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
+
+                objects.push(new Resident(pack))
+            } 
 
             objects.forEach(s=>{
                 if (typeof s.order != "undefined"){
@@ -134,6 +158,22 @@ Scenario.prototype.load = function(){
             
         case "giantMap":
 
+            for(d=0;d<this.objectAmounts.KatamoriBall;d++){
+
+                pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+                pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
+                
+                objects.push( new KatamoriBall(pack) )
+            }
+
+            for(d=0;d<this.objectAmounts.Resident;d++){
+
+                pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
+                pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
+
+                objects.push(new Resident(pack))
+            } 
+
             objects.forEach(s=>{
                 if (typeof s.order != "undefined"){
 
@@ -147,6 +187,28 @@ Scenario.prototype.load = function(){
             })
 
             break;
+
+        case "strandedPeople":
+
+            keyAction.resetCamera();
+
+            map.fillArea(4, 
+            Math.ceil(game.camera.x/tilesize) + 2,
+            Math.ceil(game.camera.y/tilesize) + 4,
+            Math.ceil(gameX/tilesize) - 4,
+            Math.ceil(gameY/tilesize) - 6)
+
+            for(d=0;d<this.objectAmounts.Resident;d++){
+
+                pack.x = tilesize*(2*(d+2+Math.floor(mapsizeX/5)))
+                pack.y = Math.floor(mapsizeY/2*tilesize)
+
+                objects.push(new Resident(pack))
+            } 
+
+            
+
+            break;              
 
 
     }
