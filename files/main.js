@@ -268,13 +268,15 @@ var mainGame = {
         if(game.input.keyboard.isDown(Phaser.Keyboard["E"])){ 
             objects[3].selectMe("init")};            
 
-//temporarily disabled
-
         if(game.input.keyboard.isDown(Phaser.Keyboard["C"])){ 
             game.state.start("crowdTest")};
 
         if(game.input.keyboard.isDown(Phaser.Keyboard["F"])){ 
             game.state.start("followTest")};
+
+        
+
+            
 
 
         /*
@@ -291,6 +293,11 @@ var mainGame = {
 
     render: () => {
 
+        if(game.input.keyboard.isDown(Phaser.Keyboard["B"])){ 
+            objects.forEach(s=>game.debug.body(s.sprite))};    
+
+        drawable.sort('y', Phaser.Group.SORT_ASCENDING)
+
         if(
             game.camera.x < tilesize-gameX ||
             game.camera.y < tilesize-gameY ||     
@@ -299,12 +306,6 @@ var mainGame = {
         ){
             game.debug.text("Got lost? Press X to reset camera", gameX/2, 64); 
         }
-
-
-
-        drawable.sort('y', Phaser.Group.SORT_ASCENDING)
-
-
 
         game.debug.text("FPS: "+game.time.fps, 80, 64);    
 
