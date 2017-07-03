@@ -115,7 +115,7 @@ Scenario.prototype.load = function(){
         case "crowdTest":
 
 
-            map.fillArea(1, Math.floor(mapsizeX/4), Math.floor(mapsizeY/4), 4, 4)
+            //map.fillArea(1, Math.floor(mapsizeX/4), Math.floor(mapsizeY/4), 4, 4)
 
 
             objects.forEach(s=>{

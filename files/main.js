@@ -223,7 +223,8 @@ var mainGame = {
         */
         game.physics.arcade.collide(objects.map((e)=>e.sprite), map.layer);
 
-        sortedCollide(game, objects.map((e)=>e.sprite))
+        //body-body collision temporarily disabled
+        //sortedCollide(game, objects.map((e)=>e.sprite))
 
 
 
