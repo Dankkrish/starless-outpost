@@ -1,38 +1,77 @@
+/*
+    max 10 names in one line, pls
+*/
 const names = {
     "first": [
         [
-            "Abraham", "Adam", "Akos", "Alphonse", "Andrew", "Attila",
-            "Benjamin",
+            "Abraham", "Adam", "Adolf", "Akos", "Alphonse", "Andrew", "Attila",
+
+            "Bartolomeo", "Benjamin",
+
             "Carl", "Christian",
+
             "Daniel", "David", "Dekt", "Drake",
+
             "Edward", "Ettar", "Egon", "Egor",
+
             "Frank", "Fred",
+
             "Gabe",
+
             "Ivan",
+
             "Jebediah", "Joah", "John",
-            "Keith",
+
+            "Keith", "Kyle",
+
             "Lazlo",
+
             "Matthew",
+
             "Nathan",
+
             "Obadiah", "Oda",
-            "Piotr",
+
+            "Peter", "Piotr",
+
             "Robert",
+
             "Steve",
+
             "Ted",
+
             "Yoshi",
+
             "William",
+
             "Zoltan"
         ],
         [
             "Abby",
+
+            "Christine",
+
+            "Dora", "Doris",
+
             "Eira", "Eva",
+
             "Helga",
+
             "Iria",
+
+            "Lisa",
+
             "Margaret", "Martha",
+
             "Nicolette",
+
+            "Petra",
+
             "Rebecca",
+
             "Sasha", "Shiori",
-            "Wendy"
+
+            "Wanda" ,"Wendy"
         ]
     ]
 }
