@@ -45,22 +45,11 @@ var scenario;
 
 var debugObj = false;
 
-var GUI = [
-    { "x": 0, "y": 0, "w": 800, "h": 128 },     //upper HUD
-    new Phaser.Rectangle(),                     //selected object's outline
-]
+var GUI;
 
 var HUDtop = [];
 
 var offset = tilesize/2
-
-function moveCam(axis, val){
-    game.camera[axis] += val;
-}
-
-function setGUI(axis, extra){
-    GUI[0][axis] = game.camera[axis] + extra;
-}
 
 var currentObject = null;
 
@@ -102,6 +91,12 @@ var loadMap = {
 
     preload: () => { 
 
+        GUI = [
+            { "x": 0, "y": 0 },             //upper HUD
+            new Phaser.Rectangle(),         //"onHover" object's outline
+            new Phaser.Rectangle(),         //selected object's outline    
+        ]
+
         /*
             loading images and spritesheets
         */
@@ -129,8 +124,17 @@ var loadMap = {
 
     create: () => {   
 
+        //gfx
+        var graphics = game.add.graphics(100, 100);
+
+        window.graphics = graphics;
+
+        bindRect(graphics, GUI[1], "00ff00")
+        bindRect(graphics, GUI[2], "56d8cb")
+
         HUDtop = game.add.sprite(0,0,'HUDtop')
 
+        //start map loading
         scenario.setMap()
 
         progress = game.add.text(gameX/2, gameY/2, "Map: 0% loaded.", 
@@ -183,22 +187,18 @@ var mainGame = {
 
         //control
         addKeys();
-
-        //gfx
-        var graphics = game.add.graphics(100, 100);
-
-        window.graphics = graphics;
-
     },
 
 
     create: () => {
 
-        scenario.load()         
-                            
-        graphics.lineStyle(2, 0x00ff00)
-        graphics.drawRect(GUI[1].x, GUI[1].y, GUI[1].width, GUI[1].height)
-        graphics.graphicsData[graphics.graphicsData.length-1].shape = GUI[1]
+                 
+
+        //set HUD
+        moveCam("x", 0)
+
+        //and the very map populating itself
+        scenario.load()
     },
 
     update: () => {
@@ -233,8 +233,6 @@ var mainGame = {
             display gfx
         */
 
-        setGUI("x")
-        setGUI("y")
 
         HUDtop.x = GUI[0].x;
         HUDtop.y = GUI[0].y;

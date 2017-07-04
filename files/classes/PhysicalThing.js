@@ -67,12 +67,14 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
         event listeners
     */
     this.sprite.events.onInputDown.add(
-        ( ) => { this.selectMe(currentObject) }, this)
+        ( ) => { this.selectMe() }, this)
 
     this.sprite.events.onInputOver.add(
         ( ) => { 
-            GUI[1].setTo(this.sprite.x-100, this.sprite.y-100, this.sprite.width, this.sprite.height)
-            this.debugText.visible = true;
+            if ( !this.selected ){
+                GUI[1].setTo(this.sprite.x-100, this.sprite.y-100, this.sprite.width, this.sprite.height)
+                this.debugText.visible = true;
+            }
         }, 
         this)
 
@@ -92,30 +94,41 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
 
 
 
-PhysicalThing.prototype.selectMe = function(previous){
+PhysicalThing.prototype.selectMe = function(){
+
+    if(currentObject !== null){ 
+        currentObject.deselectMe();
+    }
 
     this.selected = true;
 
     currentObject = this;
 
-    game.camera.follow(this.sprite) 
+    GUI[2].setTo(this.sprite.x-100, this.sprite.y-100, this.sprite.width, this.sprite.height)
+    this.debugText.visible = true;
 
-    if(previous !== "init" && previous !== null){ 
-        previous.deselectMe();
-    }
+
 
 }
 
 PhysicalThing.prototype.deselectMe = function(){
 
     this.selected = false;
+
+    GUI[2].setTo(0, 0, 0, 0)    
     this.debugText.visible = false;
 
-    currentObject = null;
-
-    game.camera.unfollow()
-
 }
+
+
+
+
+
+
+
+
+
+
 
 PhysicalThing.prototype.thrust = function(angle, speed){ 
 
@@ -127,6 +140,21 @@ PhysicalThing.prototype.thrust = function(angle, speed){
 PhysicalThing.prototype.onUpdate = function(){
     return "onUpdate() not set! Please implement to this method"
 }
+
+PhysicalThing.prototype.updateSelection = function(){
+    if (this.selected){
+        GUI[2].x = this.sprite.x-100
+        GUI[2].y = this.sprite.y-100     
+    }
+}
+
+
+
+
+
+
+
+
 
 PhysicalThing.prototype.attachText = function(textObj){
     textObj.x = this.sprite.body.x

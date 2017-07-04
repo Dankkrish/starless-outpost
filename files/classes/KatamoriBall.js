@@ -55,6 +55,7 @@ function KatamoriBall(initPos, utils){
 //implemented (inherited, with new functionality)
 KatamoriBall.prototype.onUpdate = function(){
 
+    this.updateSelection()
     this.debugReport([Math.floor(this.sprite.body.velocity.x), Math.floor(this.sprite.body.velocity.y)])
 
 }

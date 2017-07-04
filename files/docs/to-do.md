@@ -31,3 +31,5 @@ Features that sound quite good to add.
 * implement pathfinding (preferably A*)
 
 * define new groups for collision optimization
+
+* use outer sources for names >> unsure about it

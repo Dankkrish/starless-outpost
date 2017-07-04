@@ -65,6 +65,8 @@ Human.prototype.onUpdate = function(){
 
     this.debugReport([this.humanStats.name, this.humanStats.gender, this.humanStats.age])
 
+    this.updateSelection();
+
 }
 
 //getters"
@@ -196,8 +198,7 @@ Human.prototype.implementOrder = function(){
                         this.sprite.body.y,
                         this.order.params.destination[0],
                         this.order.params.destination[1]) 
-
-                }
+                    }
 
                 break;
         }

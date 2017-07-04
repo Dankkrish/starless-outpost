@@ -38,6 +38,12 @@ function addKeys(){
     }
 }
 
+function moveCam(axis, val, extra){
+    game.camera[axis] += val;
+    GUI[0][axis] += (val + extra);
+
+}
+
 var keyAction = {
 
     "scrollRight": () => {
@@ -64,7 +70,7 @@ var keyAction = {
 
 
     "deselectGlobally": () => {
-        if ( currentObject != null){
+        if ( currentObject !== null){
             currentObject.deselectMe();
         }
 

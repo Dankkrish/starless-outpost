@@ -109,9 +109,9 @@ Scenario.prototype.load = function(){
                 objects.push(new Resident(pack))
             }  
 
-            map.fillArea(1, Math.floor(mapsizeX/3), Math.floor(mapsizeY/3), Math.floor(mapsizeX/2), 4)
+            map.randomizeMap();
 
-            objects[0].selectMe("init"); 
+            map.fillArea(1, Math.floor(mapsizeX/3), Math.floor(mapsizeY/3), Math.floor(mapsizeX/2), 4)
 
             objects.forEach(s=>{
                 if (typeof s.order != "undefined"){
@@ -125,8 +125,6 @@ Scenario.prototype.load = function(){
             break;
 
         case "crowdTest":
-
-            map.fillArea(2, 1, 1, mapsizeX-2, mapsizeY-2)
 
             for(d=0;d<this.objectAmounts.Resident;d++){
 
@@ -151,6 +149,8 @@ Scenario.prototype.load = function(){
             break;
             
         case "giantMap":
+
+            map.randomizeMap();
 
             for(d=0;d<this.objectAmounts.KatamoriBall;d++){
 
@@ -183,6 +183,8 @@ Scenario.prototype.load = function(){
             break;
 
         case "strandedPeople":
+
+            map.randomizeMap();
 
             keyAction.resetCamera();
 

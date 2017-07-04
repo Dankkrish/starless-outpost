@@ -48,22 +48,7 @@ ConfiguredMap.prototype.addTile = function(utils){
 
     let full = this.mapW*this.mapH;
 
-    let p = myRandom(0, 100)
-    let t = 0
-
-    if ( p >= 0 && p < 67){
-        t = 0
-    } else if ( p >=67 && p < 70 ){
-        t = 1
-    } else if ( p >=70 && p < 85 ){
-        t = 2
-    } else if ( p >=85 && p < 90 ){
-        t = 3
-    } else if ( p >=90 && p < 100 ){
-        t = 4
-    }       
-
-    this.tilemap.putTile(t, utils['pr_x'], utils['pr_y'], this.layer)
+    this.tilemap.putTile(2, utils['pr_x'], utils['pr_y'], this.layer)
 
     if(utils['pr_x']<this.mapW){
         if(utils['pr_y'] == this.mapH){
@@ -78,6 +63,31 @@ ConfiguredMap.prototype.addTile = function(utils){
 
     progress.setText("Map: "+utils['progress']+"% loaded. \n ("+((utils['pr_x']*this.mapH)+utils['pr_y'])+"/"+full+")") 
 
+}
+
+ConfiguredMap.prototype.randomizeMap = function(){
+
+    for(z=0;z<this.mapW;z++){
+        for(f=0;f<this.mapH;f++){
+
+            let p = myRandom(0, 100)
+            let t = 0
+
+            if ( p >= 0 && p < 67){
+                t = 0
+            } else if ( p >=67 && p < 70 ){
+                t = 1
+            } else if ( p >=70 && p < 85 ){
+                t = 2
+            } else if ( p >=85 && p < 90 ){
+                t = 3
+            } else if ( p >=90 && p < 100 ){
+                t = 4
+            }
+
+           this.tilemap.putTile(t, z, f, this.layer)             
+        }        
+    }
 }
 
 
@@ -107,12 +117,11 @@ ConfiguredMap.prototype.initialize = function(){
 
     this.setGraphics();
 
-    this.tilemap.setCollision(this.collisionTiles);
-
     //performance improvement theoretically
     this.layer.renderSettings.enableScrollDelta = false;
 
     this.createBorders();
+    this.tilemap.setCollision(this.collisionTiles);   
 
 }
 
