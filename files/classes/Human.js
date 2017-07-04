@@ -181,8 +181,8 @@ Human.prototype.implementOrder = function(){
                 
 
                 if(                
-                    Math.abs(this.order.params.destination[0] - this.sprite.body.x) < 1*tilesize &&
-                    Math.abs(this.order.params.destination[1] - this.sprite.body.y) < 1*tilesize)
+                    Math.abs(this.order.params.destination[0] - this.sprite.body.x) < tilesize &&
+                    Math.abs(this.order.params.destination[1] - this.sprite.body.y) < tilesize)
                 {
                     //this.sprite.body.velocity.setTo(0, 0);
                     this.order.inProgress = false;   
@@ -194,8 +194,8 @@ Human.prototype.implementOrder = function(){
                     //this.setMotionTowards(this.order.params.destination, this.order.params.speed)
 
                     this.destination.setTo(
-                        this.sprite.body.x,
-                        this.sprite.body.y,
+                        this.sprite.body.x + this.middle.x,
+                        this.sprite.body.y + this.middle.y,
                         this.order.params.destination[0],
                         this.order.params.destination[1]) 
                     }

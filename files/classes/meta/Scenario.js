@@ -184,7 +184,7 @@ Scenario.prototype.load = function(){
 
         case "strandedPeople":
 
-            map.randomizeMap();
+            //map.randomizeMap();
 
             keyAction.resetCamera();
 

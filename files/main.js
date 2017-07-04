@@ -129,8 +129,8 @@ var loadMap = {
 
         window.graphics = graphics;
 
-        bindRect(graphics, GUI[1], "00ff00")
-        bindRect(graphics, GUI[2], "56d8cb")
+        bindRect(graphics, GUI[1], "00ff00", 2)
+        bindRect(graphics, GUI[2], "56d8cb", 6)
 
         HUDtop = game.add.sprite(0,0,'HUDtop')
 
@@ -228,6 +228,8 @@ var mainGame = {
         mouse.Y = game.input.mousePointer.y;
         mouse.tileX = Math.floor(game.input.mousePointer.x/tilesize);
         mouse.tileY = Math.floor(game.input.mousePointer.y/tilesize);
+
+        mouseBeta(game.input.mousePointer)
 
         /*
             display gfx

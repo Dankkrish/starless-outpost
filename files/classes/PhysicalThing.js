@@ -20,6 +20,7 @@ function PhysicalThing(){
 
     this.size;
     this.sizeOffset;
+    this.middle = { "x": 0, "y": 0};
 
     this.stats = {
         "maxSpeed": null,
@@ -57,6 +58,8 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
      
     s.body.mass = this.stats.mass; 
 
+    this.middle.x = Math.floor(s.body.width/2),
+    this.middle.y = Math.floor(s.body.height/2),
 
     this.sprite = s;
     
@@ -67,11 +70,15 @@ PhysicalThing.prototype.setSprite = function(pack, spritesheet){
         event listeners
     */
     this.sprite.events.onInputDown.add(
-        ( ) => { this.selectMe() }, this)
+        ( ) => { 
+            this.selected ? this.deselectMe() : this.selectMe()
+        }, this)
 
     this.sprite.events.onInputOver.add(
         ( ) => { 
-            if ( !this.selected ){
+            if ( this.selected ){
+                GUI[2].setTo(this.sprite.x-100, this.sprite.y-100, this.sprite.width, this.sprite.height)
+            } else {
                 GUI[1].setTo(this.sprite.x-100, this.sprite.y-100, this.sprite.width, this.sprite.height)
                 this.debugText.visible = true;
             }
@@ -142,6 +149,13 @@ PhysicalThing.prototype.onUpdate = function(){
 }
 
 PhysicalThing.prototype.updateSelection = function(){
+
+    if(this.debugText.visible){
+        GUI[1].x = this.sprite.x-100
+        GUI[1].y = this.sprite.y-100  
+        //console.log("yeah")       
+    } 
+
     if (this.selected){
         GUI[2].x = this.sprite.x-100
         GUI[2].y = this.sprite.y-100     
