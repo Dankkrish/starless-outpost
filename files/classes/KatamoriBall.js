@@ -10,14 +10,6 @@
 KatamoriBall.prototype = new PhysicalThing();
 KatamoriBall.prototype.constructor = KatamoriBall;
 
-KatamoriBall.prototype.size = [ 80, 88 ];
-KatamoriBall.prototype.sizeOffset = [ 0, 0 ];
-
-PhysicalThing.prototype.stats = {
-    "maxSpeed": 256,
-    "mass": 0.3
-}
-
 /*
     CONSTRUCTOR
 
@@ -26,6 +18,14 @@ function KatamoriBall(initPos, utils){
 
     //inherit variables
     PhysicalThing.call(this)
+
+    this.size = [ 80, 88 ];
+    this.sizeOffset = [ 0, 0 ];
+
+    this.stats = {
+    "maxSpeed": 256,
+    "mass": 0.3
+}
 
     this.setSprite(initPos, 'katamori');
     this.sprite.body.bounce = new Phaser.Point(0.95, 0.95)

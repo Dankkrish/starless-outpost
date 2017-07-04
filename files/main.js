@@ -43,6 +43,8 @@ var progress = [];
 var drawable;
 var scenario;
 
+var debugObj = false;
+
 var GUI = [
     { "x": 0, "y": 0, "w": 800, "h": 128 },     //upper HUD
     new Phaser.Rectangle(),                     //selected object's outline
@@ -100,8 +102,6 @@ var loadMap = {
 
     preload: () => { 
 
-        drawable = game.add.group();   
-
         /*
             loading images and spritesheets
         */
@@ -115,13 +115,15 @@ var loadMap = {
 
         game.load.spritesheet('tileset', GFX + 'tileset.png', tilesize, tilesize);
 
+        drawable = game.add.group(); 
+
         /*
             set some useful props
         */
         game.renderer.renderSession.roundPixels = true
         game.time.advancedTiming = true;
 
-        game.camera.bounds = null
+        game.camera.bounds = null;
 
     },
 
@@ -182,8 +184,6 @@ var mainGame = {
         //control
         addKeys();
 
-        cursors = game.input.keyboard.createCursorKeys();
-
         //gfx
         var graphics = game.add.graphics(100, 100);
 
@@ -195,7 +195,10 @@ var mainGame = {
     create: () => {
 
         scenario.load()         
-
+                            
+        graphics.lineStyle(2, 0x00ff00)
+        graphics.drawRect(GUI[1].x, GUI[1].y, GUI[1].width, GUI[1].height)
+        graphics.graphicsData[graphics.graphicsData.length-1].shape = GUI[1]
     },
 
     update: () => {
@@ -240,6 +243,14 @@ var mainGame = {
 
     render: () => {
 
+        if(debugObj){
+            objects.forEach(
+                s=>{
+                    game.debug.body(s.sprite);
+                    typeof s.destination != "null" ? game.debug.geom(s.destination) : 1;
+                })              
+        }
+
 
         drawable.sort('y', Phaser.Group.SORT_ASCENDING)
 
@@ -262,12 +273,15 @@ var mainGame = {
                                 Math.floor(+mouse.tileX)+","+
                                 Math.floor(mouse.tileY), gameX - 320, 96);      
 
+        
 
 
     }
 }
 
-//the matter itself
+/*
+    definition of states and scenarios
+*/
 game.state.add('followTest', scenarioInit.followTest);
 game.state.add('crowdTest', scenarioInit.crowdTest);
 game.state.add('giantMap', scenarioInit.giantMap);

@@ -26,8 +26,6 @@ function PhysicalThing(){
         "mass": null
     }
 
-    this.inputHandler;
-
     this.selected = false;
 
 }
@@ -45,25 +43,47 @@ function PhysicalThing(){
 //set sprite AND its physics
 PhysicalThing.prototype.setSprite = function(pack, spritesheet){
 
+    let s = drawable.create(pack.x,pack.y, spritesheet);
 
 
-    this.sprite = drawable.create(pack.x,pack.y, spritesheet);
+    pack.gameObj.physics.arcade.enable(s, Phaser.Physics.ARCADE);
 
-    
-    pack.gameObj.physics.arcade.enable(this.sprite, Phaser.Physics.ARCADE);
-
-    this.sprite.body.collideWorldBounds = true;
-    this.sprite.body.setSize(this.size[0], this.size[1], this.sizeOffset[0], this.sizeOffset[1]); 
+    s.body.collideWorldBounds = true;
+    s.body.setSize(this.size[0], this.size[1], this.sizeOffset[0], this.sizeOffset[1]); 
 
     if (this.stats.maxSpeed != -1){
-        this.sprite.body.maxVelocity = this.stats.maxSpeed; 
+        s.body.maxVelocity = this.stats.maxSpeed; 
     }
      
-    this.sprite.body.mass = this.stats.mass; 
+    s.body.mass = this.stats.mass; 
 
 
+    this.sprite = s;
+    
+    this.sprite.inputEnabled = true;
+    this.sprite.input.enabled = true;
 
-    this.inputHandler = new Phaser.InputHandler(this.sprite)
+    /*
+        event listeners
+    */
+    this.sprite.events.onInputDown.add(
+        ( ) => { this.selectMe(currentObject) }, this)
+
+    this.sprite.events.onInputOver.add(
+        ( ) => { 
+            GUI[1].setTo(this.sprite.x-100, this.sprite.y-100, this.sprite.width, this.sprite.height)
+            this.debugText.visible = true;
+        }, 
+        this)
+
+    this.sprite.events.onInputOut.add(
+        ( ) => { 
+            GUI[1].setTo(0, 0, 0, 0)
+            this.debugText.visible = false;
+        }, 
+        this)       
+
+       
 
 }
 
@@ -80,7 +100,7 @@ PhysicalThing.prototype.selectMe = function(previous){
 
     game.camera.follow(this.sprite) 
 
-    if(previous !== "init"){ 
+    if(previous !== "init" && previous !== null){ 
         previous.deselectMe();
     }
 
@@ -89,6 +109,7 @@ PhysicalThing.prototype.selectMe = function(previous){
 PhysicalThing.prototype.deselectMe = function(){
 
     this.selected = false;
+    this.debugText.visible = false;
 
     currentObject = null;
 
@@ -111,7 +132,7 @@ PhysicalThing.prototype.attachText = function(textObj){
     textObj.x = this.sprite.body.x
     textObj.y = this.sprite.body.y+this.size[1]+4
 
-    this.debugText.setText("stats: ")
+    this.debugText.setText("")
 };
 
 PhysicalThing.prototype.debugReport = function(params){
@@ -121,7 +142,7 @@ PhysicalThing.prototype.debugReport = function(params){
         this.attachText(this.debugText)
 
         params.forEach(p=>{
-            this.debugText.setText(this.debugText.text.concat(p, "|"))
+            this.debugText.setText(this.debugText.text.concat(" | ", p))
         })
 
     }

@@ -126,13 +126,7 @@ Scenario.prototype.load = function(){
 
         case "crowdTest":
 
-            for(d=0;d<this.objectAmounts.KatamoriBall;d++){
-
-                pack.x = myRandom(tilesize*2, tilesize*(mapsizeX-4))
-                pack.y = myRandom(tilesize*2, tilesize*(mapsizeY-4))
-                
-                objects.push( new KatamoriBall(pack) )
-            }
+            map.fillArea(2, 1, 1, mapsizeX-2, mapsizeY-2)
 
             for(d=0;d<this.objectAmounts.Resident;d++){
 

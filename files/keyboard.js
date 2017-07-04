@@ -10,10 +10,9 @@ var defaultKeys = [
     ["scrollRight", "D", true],
     ["resetCamera", "X", true],
 
-    ["selectObject", "E", false],
-    ["deselectObject", "ESC", false],
+    ["deselectGlobally", "ESC", false],
 
-    ["debugData", "B", true],
+    ["debugData", "B", false],
 
     ["startScenario_1", "ONE", false],
     ["startScenario_2", "TWO", false],
@@ -64,26 +63,18 @@ var keyAction = {
 
 
 
-    "deselectObject": () => {
-        objects[3].deselectMe()
+    "deselectGlobally": () => {
+        if ( currentObject != null){
+            currentObject.deselectMe();
+        }
+
     },
-
-    "selectObject": () => {
-        objects[3].selectMe("init")
-    },
-
-
-
 
 
 
 
     "debugData": () => {
-        objects.forEach(
-            s=>{
-                game.debug.body(s.sprite);
-                typeof s.destination != "null" ? game.debug.geom(s.destination) : 1;
-            })        
+        debugObj = !debugObj;
     },
 
 

@@ -63,30 +63,54 @@ function Human(){
 Human.prototype.onUpdate = function(){
     this.implementOrder();
 
-    this.debugReport([this.humanStats.gender, this.humanStats.weight])
-
-    if (this.inputHandler.pointerOver(0)) {
-        console.log("over")
-    }
+    this.debugReport([this.humanStats.name, this.humanStats.gender, this.humanStats.age])
 
 }
 
-//getters
+//getters"
 //none
 
 //setters
 Human.prototype.setStatsAuto = function(){
 
     this.setGender("random")
+    this.setName("random")
+    this.setAge(myRandom(15, 90))
     this.setWeight(myRandom(50, 120))
 
+}
 
-    
+Human.prototype.setAge = function(num){
+
+    this.humanStats.age = num;
+
 }
 
 Human.prototype.setName = function(str){
 
-    this.humanStats.name = str;
+    if ( str === "random" ){
+        this.humanStats.name = "A random "+this.humanStats.gender 
+
+        switch ( this.humanStats.gender ){
+
+            case "male": 
+                this.humanStats.name = names.first[0][myRandom(0, names.first[0].length-1)]
+                break;
+
+            case "female":
+                this.humanStats.name = names.first[1][myRandom(0, names.first[1].length-1)]
+                break;
+
+            case "transgender":
+                let p = myRandom(0, 1)
+                this.humanStats.name = names.first[p][myRandom(0, names.first[p].length-1)]
+                break;
+
+        }
+
+    } else {
+        this.humanStats.name = str;
+    }
 }
 
 Human.prototype.setWeight = function(num){
@@ -130,12 +154,6 @@ Human.prototype.setGender = function(g){
     }
 
 } 
-
-
-
-
-
-
 
 
 
@@ -226,7 +244,6 @@ Human.prototype.setMotionTowards = function(coords, spd){
     this.sprite.body.velocity.setTo(vector[0], vector[1]);
 
 }
-
 
 
 
